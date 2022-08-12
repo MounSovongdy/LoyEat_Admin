@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
+import 'package:loyeat_admin/src/widget/text_field_widget.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -9,15 +11,17 @@ class LandingScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Loy Eat Dashboard'),
       ),
-      body: const Center(
-        child: TextField(
-          obscureText: false,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Name',
-          ),
-        ),
-      ),
+      body: body,
+      bottomNavigationBar: BottomAppBarWidget(),
     );
   }
+  Widget get body{
+    return ListView(
+      children: const [
+        TextFieldWidget(),
+        
+      ],
+    );
+  }
+
 }
