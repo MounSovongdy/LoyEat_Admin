@@ -11,7 +11,7 @@ class LandingScreen extends StatelessWidget {
     return Scaffold(
       appBar: appbar,
       body: body,
-      bottomNavigationBar: BottomAppBarWidget(),
+      bottomNavigationBar: const BottomAppBarWidget(),
     );
   }
 

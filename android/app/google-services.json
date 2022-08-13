@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "141243211026",
+    "project_id": "loy-eat",
+    "storage_bucket": "loy-eat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141243211026:android:469f48e68e2b67c19be7cb",
+        "android_client_info": {
+          "package_name": "com.example.loyeat_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141243211026-ucaqdu46r89jpd0nvorrplqh37dajjn6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loyeat_admin",
+            "certificate_hash": "10f1f6c1dfd7e82dc404187b5f86a6bda43a26cb"
+          }
+        },
+        {
+          "client_id": "141243211026-m7sb912eoa21r51q010d649en7e8avic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoEsJQ8fL3EKIHvEPoLbz8g0qQ2eYneyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141243211026-m7sb912eoa21r51q010d649en7e8avic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
