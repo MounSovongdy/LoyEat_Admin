@@ -24,6 +24,8 @@ class LandingScreen extends StatelessWidget {
       children: const [
         TextFieldWidget(),
         TextFieldWidget(),
+        TextFieldWidget(),
+        TextFieldWidget(),
         ButtonSubmitWidget(),
       ],
     );
