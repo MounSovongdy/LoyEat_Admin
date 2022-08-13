@@ -23,6 +23,7 @@ class LandingScreen extends StatelessWidget {
     return ListView(
       children: const [
         TextFieldWidget(),
+        TextFieldWidget(),
         ButtonSubmitWidget(),
       ],
     );
