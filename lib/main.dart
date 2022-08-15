@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:loyeat_admin/src/srceen/landing_screen.dart';
+import 'package:loyeat_admin/src/srceen/landing_srceen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
