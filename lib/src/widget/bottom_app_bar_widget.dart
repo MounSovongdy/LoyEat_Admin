@@ -25,7 +25,7 @@ class BottomAppBarWidget extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget buildTabItem({
     required int index,
     required Icon icon,
