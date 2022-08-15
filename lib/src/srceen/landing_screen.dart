@@ -3,7 +3,7 @@ import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LandingScreen extends StatefulWidget {
-  LandingScreen({Key? key}) : super(key: key);
+  const LandingScreen({Key? key}) : super(key: key);
 
   @override
   State<LandingScreen> createState() => _LandingScreenState();
@@ -11,10 +11,8 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
 
-  // ignore: non_constant_identifier_names
-  String customer_name='';
-  // ignore: non_constant_identifier_names
-  String customer_id='';
+  String customer_name="";
+  String customer_id="";
   
 
   CollectionReference customers = FirebaseFirestore.instance.collection('customers');
@@ -53,7 +51,6 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   Widget text_field({required String controller, required String labletext}){
     return Column(
       children: [
@@ -73,7 +70,7 @@ class _LandingScreenState extends State<LandingScreen> {
       ]
     );
   }
-  // ignore: non_constant_identifier_names
+
   Widget get button_submit{
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 8),
@@ -86,6 +83,7 @@ class _LandingScreenState extends State<LandingScreen> {
           ),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
+        
         onPressed: () async {
           await customers.add({
             'customer_name':customer_name,
