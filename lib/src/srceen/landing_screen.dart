@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({Key? key}) : super(key: key);
+=======
+<<<<<<< HEAD
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class LandingScreen extends StatefulWidget {
+  LandingScreen({Key? key}) : super(key: key);
+=======
+import 'package:loyeat_admin/src/widget/button_submit-widget.dart';
+import 'package:loyeat_admin/src/widget/text_field_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class LandingScreen extends StatelessWidget {
+  CollectionReference customers =
+      FirebaseFirestore.instance.collection('customers');
+      
+        get customer_name => null;
+
+  // ignore: non_constant_identifier_names
+>>>>>>> 3e0016b3568312cb79cb69d6396e67e11a655994
+>>>>>>> 722c4104c3181d0f1b51045fe180a7f914bb60ee
 
   @override
   State<LandingScreen> createState() => _LandingScreenState();
@@ -33,6 +54,10 @@ class _LandingScreenState extends State<LandingScreen> {
 
   Widget get body {
     return ListView(
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 722c4104c3181d0f1b51045fe180a7f914bb60ee
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal:0),
       children: [
         text_field(controller: customer_name,labletext: 'Customer Name'),
@@ -47,10 +72,24 @@ class _LandingScreenState extends State<LandingScreen> {
         text_field(controller: customer_id,labletext: 'Distance'),
         text_field(controller: customer_name,labletext: 'Delivery Fee'),
         button_submit,
+<<<<<<< HEAD
+=======
+=======
+      children: [
+        text_field,
+        button_submit,
+        //TextFieldWidget(),
+>>>>>>> 3e0016b3568312cb79cb69d6396e67e11a655994
+>>>>>>> 722c4104c3181d0f1b51045fe180a7f914bb60ee
       ],
     );
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  // ignore: non_constant_identifier_names
+>>>>>>> 722c4104c3181d0f1b51045fe180a7f914bb60ee
   Widget text_field({required String controller, required String labletext}){
     return Column(
       children: [
@@ -70,8 +109,39 @@ class _LandingScreenState extends State<LandingScreen> {
       ]
     );
   }
+<<<<<<< HEAD
 
   Widget get button_submit{
+=======
+  // ignore: non_constant_identifier_names
+  Widget get button_submit{
+=======
+  Widget get text_field {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            child: TextField(
+              onChanged: (value) {
+                String customer_name;
+                customer_name = value;
+              },
+              obscureText: false,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: 'Customer Name',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget get button_submit {
+>>>>>>> 3e0016b3568312cb79cb69d6396e67e11a655994
+>>>>>>> 722c4104c3181d0f1b51045fe180a7f914bb60ee
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 8),
       child: TextButton(
@@ -85,6 +155,10 @@ class _LandingScreenState extends State<LandingScreen> {
         ),
 
         onPressed: () async {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 722c4104c3181d0f1b51045fe180a7f914bb60ee
           await customers.add({
             'customer_name':customer_name,
             'customer_id' : customer_id,
@@ -92,6 +166,15 @@ class _LandingScreenState extends State<LandingScreen> {
         },
         child: 
           const Text('Submit'),
+<<<<<<< HEAD
+=======
+=======
+          await customers.add({'customer_name': customer_name}).then(
+              (value) => print('Added'));
+        },
+        child: const Text('Submit'),
+>>>>>>> 3e0016b3568312cb79cb69d6396e67e11a655994
+>>>>>>> 722c4104c3181d0f1b51045fe180a7f914bb60ee
       ),
     );
   }
