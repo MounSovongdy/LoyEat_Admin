@@ -83,7 +83,7 @@ class _LandingScreenState extends State<LandingScreen> {
           ),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
-        
+
         onPressed: () async {
           await customers.add({
             'customer_name':customer_name,

@@ -7,7 +7,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     //options: DefaultFirebaseOptions.currentPlatform,
   );
-  MaterialApp app = MaterialApp(
+  MaterialApp app = const MaterialApp(
     home: LandingScreen(),
     debugShowCheckedModeBanner: false,
   );
