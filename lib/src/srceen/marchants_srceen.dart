@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class LandingScreen extends StatefulWidget {
-  const LandingScreen({Key? key}) : super(key: key);
+class MarchantsSrceen extends StatefulWidget {
+  const MarchantsSrceen({Key? key}) : super(key: key);
 
   @override
-  State<LandingScreen> createState() => _LandingScreenState();
+  State<MarchantsSrceen> createState() => _MarchantsSrceenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class _MarchantsSrceenState extends State<MarchantsSrceen> {
 
   final customerName = TextEditingController();
   final customerId = TextEditingController();
@@ -28,7 +28,6 @@ class _LandingScreenState extends State<LandingScreen> {
   CollectionReference merchants = FirebaseFirestore.instance.collection('merchants');
   CollectionReference delivers = FirebaseFirestore.instance.collection('delivers');
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +38,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   final appbar = AppBar(
-    title: const Text('Customer Page'),
+    title: const Text('Marchant Page'),
   );
 
   Widget get body {
@@ -126,6 +125,3 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 }
-
-
-
