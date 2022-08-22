@@ -4,31 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MarchantsSrceen extends StatefulWidget {
-  const MarchantsSrceen({Key? key}) : super(key: key);
+class DeliverSrceen extends StatefulWidget {
+  const DeliverSrceen({Key? key}) : super(key: key);
 
   @override
-  State<MarchantsSrceen> createState() => _MarchantsSrceenState();
+  State<DeliverSrceen> createState() => _CustomerScreenState();
 }
 
-class _MarchantsSrceenState extends State<MarchantsSrceen> {
-
-  final customerName = TextEditingController();
-  final customerId = TextEditingController();
+class _CustomerScreenState extends State<DeliverSrceen> {
+  
   final customerRating = TextEditingController();
-  final merchantName = TextEditingController();
-  final merchantId = TextEditingController(); 
   final merchantRating = TextEditingController();
   final orderId = TextEditingController();
   final orderTime = TextEditingController();
   final orderDate = TextEditingController();
   final distance = TextEditingController();
   final deliveryFee = TextEditingController();
-  
 
-  CollectionReference customers = FirebaseFirestore.instance.collection('customers');
-  CollectionReference merchants = FirebaseFirestore.instance.collection('merchants');
-  CollectionReference delivers = FirebaseFirestore.instance.collection('delivers');
+  CollectionReference delivers =
+      FirebaseFirestore.instance.collection('delivers');
 
   @override
   Widget build(BuildContext context) {
@@ -40,44 +34,49 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
   }
 
   final appbar = AppBar(
-    title: const Text('Marchant Page'),
+    title: const Text('Deliver Page'),
   );
 
   Widget get body {
-
     return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal:0),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
-        textEditingController(controller: customerName,labletext: 'Customer Name'),
-        textEditingController(controller: customerId,labletext: 'Customer ID'),
-       
+        textEditingController(
+            controller: customerRating, labletext: 'Customer Rating'),
+        textEditingController(
+            controller: merchantRating, labletext: ' Merchant Rating'),
+        textEditingController(controller: orderId, labletext: 'Order ID'),
+        textEditingController(controller: orderTime, labletext: 'Order Time'),
+        textEditingController(controller: orderDate, labletext: 'Order Date'),
+        textEditingController(controller: distance, labletext: 'Distance'),
+        textEditingController(
+            controller: deliveryFee, labletext: 'Delivery Fee'),
         buttonSubmit,
       ],
     );
   }
 
-  Widget textEditingController({required TextEditingController controller, required String labletext}){
-    return Column(
-      children: [
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            child:  TextField(
-              controller: controller,
-              obscureText: false,
-              decoration:  InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: labletext,
-              ),
-              onSubmitted: (value) {
-                controller.text = value;
-              },
-            ),
+  Widget textEditingController(
+      {required TextEditingController controller, required String labletext}) {
+    return Column(children: [
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: TextField(
+          controller: controller,
+          obscureText: false,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: labletext,
+          ),
+          onSubmitted: (value) {
+            controller.text = value;
+          },
         ),
-      ]
-    );
+      ),
+    ]);
   }
 
-  Widget get buttonSubmit{
+  Widget get buttonSubmit {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 8),
       child: Column(

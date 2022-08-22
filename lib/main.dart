@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:loyeat_admin/src/srceen/landing_srceen.dart';
-import 'package:loyeat_admin/src/srceen/marchants_srceen.dart';
-import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
+import 'package:loyeat_admin/src/srceen/customer_srceen.dart';
+import 'package:loyeat_admin/src/srceen/startup_srceen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,7 +9,7 @@ Future<void> main() async {
     //options: DefaultFirebaseOptions.currentPlatform,
   );
   MaterialApp app = const MaterialApp(
-    home: LandingScreen(),
+    home: StartUpSrceen(),
     debugShowCheckedModeBanner: false,
   );
   runApp(app);
