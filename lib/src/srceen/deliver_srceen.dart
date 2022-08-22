@@ -41,16 +41,13 @@ class _CustomerScreenState extends State<DeliverSrceen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
-        textEditingController(
-            controller: customerRating, labletext: 'Customer Rating'),
-        textEditingController(
-            controller: merchantRating, labletext: ' Merchant Rating'),
+        textEditingController(controller: customerRating, labletext: 'Customer Rating'),
+        textEditingController(controller: merchantRating, labletext: ' Merchant Rating'),
         textEditingController(controller: orderId, labletext: 'Order ID'),
         textEditingController(controller: orderTime, labletext: 'Order Time'),
         textEditingController(controller: orderDate, labletext: 'Order Date'),
         textEditingController(controller: distance, labletext: 'Distance'),
-        textEditingController(
-            controller: deliveryFee, labletext: 'Delivery Fee'),
+        textEditingController(controller: deliveryFee, labletext: 'Delivery Fee'),
         buttonSubmit,
       ],
     );

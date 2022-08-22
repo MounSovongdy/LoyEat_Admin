@@ -13,22 +13,16 @@ class MarchantsSrceen extends StatefulWidget {
 
 class _MarchantsSrceenState extends State<MarchantsSrceen> {
 
-  final customerName = TextEditingController();
-  final customerId = TextEditingController();
-  final customerRating = TextEditingController();
   final merchantName = TextEditingController();
-  final merchantId = TextEditingController(); 
-  final merchantRating = TextEditingController();
-  final orderId = TextEditingController();
-  final orderTime = TextEditingController();
-  final orderDate = TextEditingController();
-  final distance = TextEditingController();
-  final deliveryFee = TextEditingController();
+  final merchantId = TextEditingController();
+  final createAt = TextEditingController();
+  final tel = TextEditingController();
+  final location = TextEditingController();
+  final position = TextEditingController();
+  final image = TextEditingController();
   
 
-  CollectionReference customers = FirebaseFirestore.instance.collection('customers');
   CollectionReference merchants = FirebaseFirestore.instance.collection('merchants');
-  CollectionReference delivers = FirebaseFirestore.instance.collection('delivers');
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +34,7 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
   }
 
   final appbar = AppBar(
-    title: const Text('Marchant Page'),
+    title: const Text('Merchant Page'),
   );
 
   Widget get body {
@@ -48,8 +42,13 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal:0),
       children: [
-        textEditingController(controller: customerName,labletext: 'Customer Name'),
-        textEditingController(controller: customerId,labletext: 'Customer ID'),
+        textEditingController(controller: merchantName,labletext: 'Merchant Name'),
+        textEditingController(controller: merchantId,labletext: 'Merchant ID'),
+        textEditingController(controller: tel,labletext: 'Telephone'),
+        textEditingController(controller: createAt,labletext: 'Create Date'),
+        textEditingController(controller: location,labletext: 'Location'),
+        textEditingController(controller: position,labletext: 'Position'),
+        textEditingController(controller: image,labletext: 'Image'),
        
         buttonSubmit,
       ],
@@ -91,24 +90,24 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 //onPressed for insert to firestore
                 onPressed: () async {
-                  await delivers.add({
-                    'customer_rating': customerRating.text,
-                    'marchant_rating': merchantRating.text,
-                    'order_id': orderId.text,
-                    'distance': distance.text,
-                    'delivery_fee': deliveryFee.text,
-                    'order_date': orderDate.text,
-                    'order_time': orderTime.text,
+                  await merchants.add({
+                    'merchant_id' : merchantId.text,
+                    'merchant_name' : merchantName.text,
+                    'tel' : tel.text,
+                    'create_at' : createAt.text,
+                    'location' : location.text,
+                    'position' : position.text,
+                    'image' : image.text,
                   }).then((value) => print(' Deliver Added'));
 
                   //clear text from testfeild
-                  customerRating.clear();
-                  merchantRating.clear();
-                  orderId.clear();
-                  distance.clear();
-                  deliveryFee.clear();
-                  orderDate.clear();
-                  orderTime.clear();
+                  merchantId.clear();
+                  merchantName.clear();
+                  tel.clear();
+                  createAt.clear();
+                  location.clear();
+                  position.clear();
+                  image.clear();
                 },
                 color: Colors.blue,
                 shape: const RoundedRectangleBorder(

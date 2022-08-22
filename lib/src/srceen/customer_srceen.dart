@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,8 +21,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
   final location = TextEditingController();
   final position = TextEditingController();
 
-  CollectionReference customers =
-      FirebaseFirestore.instance.collection('customers');
+  CollectionReference customers = FirebaseFirestore.instance.collection('customers');
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +41,10 @@ class _CustomerScreenState extends State<CustomerScreen> {
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
         textEditingController(controller: customerId, labletext: 'Customer ID'),
-        textEditingController(
-            controller: customerName, labletext: 'Customer Name'),
+        textEditingController(controller: customerName, labletext: 'Customer Name'),
         textEditingController(controller: gender, labletext: 'Gender'),
         textEditingController(controller: tel, labletext: 'Telephone'),
-        textEditingController(controller: createAt, labletext: 'Create At'),
+        textEditingController(controller: createAt, labletext: 'Create Date'),
         textEditingController(controller: createTime, labletext: 'Create Time'),
         textEditingController(controller: location, labletext: 'Location'),
         textEditingController(controller: position, labletext: 'Position'),
@@ -93,13 +90,13 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   await customers.add({
                     'customer_name': customerName.text,
                     'customer_id': customerId.text,
-                    'createAt': createAt.text,
-                    'createTime': createTime.text,
+                    'create_at': createAt.text,
+                    'create_time': createTime.text,
                     'gender': gender.text,
                     'tel': tel.text,
                     'position': position.text,
                     'location': location.text,
-                    'imgage': image.text,
+                    'image': image.text,
                   }).then((value) => print('Customer Added'));
                   customerId.clear();
                   customerName.clear();
