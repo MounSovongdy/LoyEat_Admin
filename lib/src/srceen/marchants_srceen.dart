@@ -18,7 +18,8 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
   final createAt = TextEditingController();
   final tel = TextEditingController();
   final location = TextEditingController();
-  final position = TextEditingController();
+  final latitude = TextEditingController();
+  final longitude = TextEditingController();
   final image = TextEditingController();
   
 
@@ -47,7 +48,8 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
         textEditingController(controller: tel,labletext: 'Telephone'),
         textEditingController(controller: createAt,labletext: 'Create Date'),
         textEditingController(controller: location,labletext: 'Location'),
-        textEditingController(controller: position,labletext: 'Position'),
+        textEditingController(controller: latitude, labletext: 'Latitude'),
+        textEditingController(controller: longitude, labletext: 'Longitude'),
         textEditingController(controller: image,labletext: 'Image'),
        
         buttonSubmit,
@@ -96,7 +98,7 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
                     'tel' : tel.text,
                     'create_at' : createAt.text,
                     'location' : location.text,
-                    'position' : position.text,
+                    'position' : GeoPoint(double.parse(latitude.text),double.parse(longitude.text)),
                     'image' : image.text,
                   }).then((value) => print(' Deliver Added'));
 
@@ -106,7 +108,8 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
                   tel.clear();
                   createAt.clear();
                   location.clear();
-                  position.clear();
+                  latitude.clear();
+                  longitude.clear();
                   image.clear();
                 },
                 color: Colors.blue,

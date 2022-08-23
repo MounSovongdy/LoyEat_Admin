@@ -13,11 +13,12 @@ class DeliverSrceen extends StatefulWidget {
 
 class _CustomerScreenState extends State<DeliverSrceen> {
   
-  final customerRating = TextEditingController();
-  final merchantRating = TextEditingController();
   final orderId = TextEditingController();
   final orderTime = TextEditingController();
   final orderDate = TextEditingController();
+  final period = TextEditingController(); 
+  final bonus = TextEditingController();
+  final tip = TextEditingController();
   final distance = TextEditingController();
   final deliveryFee = TextEditingController();
 
@@ -41,11 +42,12 @@ class _CustomerScreenState extends State<DeliverSrceen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
-        textEditingController(controller: customerRating, labletext: 'Customer Rating'),
-        textEditingController(controller: merchantRating, labletext: ' Merchant Rating'),
         textEditingController(controller: orderId, labletext: 'Order ID'),
         textEditingController(controller: orderTime, labletext: 'Order Time'),
         textEditingController(controller: orderDate, labletext: 'Order Date'),
+        textEditingController(controller: period, labletext: 'Order Period'),
+        textEditingController(controller: bonus, labletext: 'Bonus'),
+        textEditingController(controller: tip, labletext: 'Tip'),
         textEditingController(controller: distance, labletext: 'Distance'),
         textEditingController(controller: deliveryFee, labletext: 'Delivery Fee'),
         buttonSubmit,
@@ -88,18 +90,16 @@ class _CustomerScreenState extends State<DeliverSrceen> {
                 //onPressed for insert to firestore
                 onPressed: () async {
                   await delivers.add({
-                    'customer_rating': customerRating.text,
-                    'marchant_rating': merchantRating.text,
+                  
                     'order_id': orderId.text,
                     'distance': distance.text,
                     'delivery_fee': deliveryFee.text,
                     'order_date': orderDate.text,
                     'order_time': orderTime.text,
-                  }).then((value) => print(' Deliver Added'));
+                  }).then((value) => alert());
 
                   //clear text from testfeild
-                  customerRating.clear();
-                  merchantRating.clear();
+                  
                   orderId.clear();
                   distance.clear();
                   deliveryFee.clear();
@@ -121,5 +121,12 @@ class _CustomerScreenState extends State<DeliverSrceen> {
         ],
       ),
     );
+  }
+
+  void alert (){
+    const snackBar = SnackBar(
+            content: Text('Order Added'),
+          );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

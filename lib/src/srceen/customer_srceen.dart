@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CustomerScreen extends StatefulWidget {
   const CustomerScreen({Key? key}) : super(key: key);
@@ -19,7 +19,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
   final createTime = TextEditingController();
   final image = TextEditingController();
   final location = TextEditingController();
-  final position = TextEditingController();
+  final latitude = TextEditingController();
+  final longitude = TextEditingController();
 
   CollectionReference customers = FirebaseFirestore.instance.collection('customers');
 
@@ -47,7 +48,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
         textEditingController(controller: createAt, labletext: 'Create Date'),
         textEditingController(controller: createTime, labletext: 'Create Time'),
         textEditingController(controller: location, labletext: 'Location'),
-        textEditingController(controller: position, labletext: 'Position'),
+        textEditingController(controller: latitude, labletext: 'Latitude'),
+        textEditingController(controller: longitude, labletext: 'Longitude'),
         textEditingController(controller: image, labletext: 'Image'),
         buttonSubmit,
       ],
@@ -94,7 +96,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                     'create_time': createTime.text,
                     'gender': gender.text,
                     'tel': tel.text,
-                    'position': position.text,
+                    'position': GeoPoint(double.parse(latitude.text),double.parse(longitude.text)),
                     'location': location.text,
                     'image': image.text,
                   }).then((value) => print('Customer Added'));
@@ -105,7 +107,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   createAt.clear();
                   createTime.clear();
                   location.clear();
-                  position.clear();
+                  latitude.clear();
+                  longitude.clear();
                   image.clear();
                 },
                 color: Colors.blue,
