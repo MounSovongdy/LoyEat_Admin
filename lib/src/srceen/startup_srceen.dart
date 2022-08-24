@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'customer_srceen.dart';
-import 'deliver_srceen.dart';
+import 'order_srceen.dart';
 import 'marchants_srceen.dart';
 
 class StartUpSrceen extends StatefulWidget {
@@ -85,14 +85,14 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const DeliverSrceen()),
+                      builder: (context) => const OrderSrceen()),
                 );
               },
               color: Colors.blue,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5))),
               child: const Text(
-                "Deliver Page",
+                "Order Page",
                 style: TextStyle(
                   color: Colors.white,
                 ),
