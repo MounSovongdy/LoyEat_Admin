@@ -30,7 +30,7 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
     return Scaffold(
       appBar: appbar,
       body: body,
-      bottomNavigationBar: const BottomAppBarWidget(),
+      //bottomNavigationBar: const BottomAppBarWidget(),
     );
   }
 

@@ -35,7 +35,7 @@ class _CustomerScreenState extends State<OrderSrceen> {
     return Scaffold(
       appBar: appbar,
       body: body,
-      bottomNavigationBar: const BottomAppBarWidget(),
+      //bottomNavigationBar: const BottomAppBarWidget(),
     );
   }
 

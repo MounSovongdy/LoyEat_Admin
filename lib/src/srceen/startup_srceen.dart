@@ -39,19 +39,19 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
                   MaterialPageRoute(
                       builder: (context) => const CustomerScreen()),
                 );
-              },
+              }, 
               color: Colors.blue,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5))),
               child: const Text(
                 "Customer Page",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.white, 
                 ),
               ),
             ),
           ),
-        ),
+        ), 
         Center(
           child: SizedBox(
             width: 350,
@@ -97,7 +97,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
                   color: Colors.white,
                 ),
               ),
-            ),
+            ), 
           ),
         )
       ],
