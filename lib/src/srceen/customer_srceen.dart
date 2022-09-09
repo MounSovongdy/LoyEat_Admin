@@ -22,7 +22,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
   final latitude = TextEditingController();
   final longitude = TextEditingController();
 
-  CollectionReference customers = FirebaseFirestore.instance.collection('customers');
+  CollectionReference customers =
+      FirebaseFirestore.instance.collection('customers');
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +42,67 @@ class _CustomerScreenState extends State<CustomerScreen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
-        textEditingController(controller: customerId, labletext: 'Customer ID'),
-        textEditingController(controller: customerName, labletext: 'Customer Name'),
-        textEditingController(controller: gender, labletext: 'Gender'),
-        textEditingController(controller: tel, labletext: 'Telephone'),
-        textEditingController(controller: createAt, labletext: 'Create Date'),
-        textEditingController(controller: createTime, labletext: 'Create Time'),
-        textEditingController(controller: location, labletext: 'Location'),
-        textEditingController(controller: latitude, labletext: 'Latitude'),
-        textEditingController(controller: longitude, labletext: 'Longitude'),
-        textEditingController(controller: image, labletext: 'Image'),
+        textEditingController(
+            controller: customerId,
+            labletext: 'Customer ID',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: customerName,
+            labletext: 'Customer Name',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: gender,
+            labletext: 'Gender',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: tel,
+            labletext: 'Telephone',
+            suffixIcon:
+                GestureDetector(onTap: () => {}, child: const Icon(Icons.phone))),
+        textEditingController(
+            controller: createAt,
+            labletext: 'Create Date',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: createTime,
+            labletext: 'Create Time',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: location,
+            labletext: 'Location',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: latitude,
+            labletext: 'Latitude',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: longitude,
+            labletext: 'Longitude',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: image,
+            labletext: 'Image',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                
         buttonSubmit,
       ],
     );
   }
 
-  Widget textEditingController(
-      {required TextEditingController controller, required String labletext}) {
+  Widget textEditingController({
+    required TextEditingController controller,
+    required String labletext,
+    Widget? suffixIcon,
+  }) {
     return Column(children: [
       Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -65,6 +110,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
           controller: controller,
           obscureText: false,
           decoration: InputDecoration(
+            suffixIcon: suffixIcon,
             border: const OutlineInputBorder(),
             labelText: labletext,
           ),
@@ -96,7 +142,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
                     'create_time': createTime.text,
                     'gender': gender.text,
                     'tel': tel.text,
-                    'position': GeoPoint(double.parse(latitude.text),double.parse(longitude.text)),
+                    'position': GeoPoint(double.parse(latitude.text),
+                        double.parse(longitude.text)),
                     'location': location.text,
                     'image': image.text,
                   }).then((value) => print('Customer Added'));
