@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class MarchantsSrceen extends StatefulWidget {
   const MarchantsSrceen({Key? key}) : super(key: key);
@@ -12,7 +13,6 @@ class MarchantsSrceen extends StatefulWidget {
 }
 
 class _MarchantsSrceenState extends State<MarchantsSrceen> {
-
   final merchantName = TextEditingController();
   final merchantId = TextEditingController();
   final createAt = TextEditingController();
@@ -21,9 +21,9 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
   final latitude = TextEditingController();
   final longitude = TextEditingController();
   final image = TextEditingController();
-  
 
-  CollectionReference merchants = FirebaseFirestore.instance.collection('merchants');
+  CollectionReference merchants =
+      FirebaseFirestore.instance.collection('merchants');
 
   @override
   Widget build(BuildContext context) {
@@ -39,46 +39,93 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
   );
 
   Widget get body {
-
     return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal:0),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
-        textEditingController(controller: merchantName,labletext: 'Merchant Name'),
-        textEditingController(controller: merchantId,labletext: 'Merchant ID'),
-        textEditingController(controller: tel,labletext: 'Telephone'),
-        textEditingController(controller: createAt,labletext: 'Create Date'),
-        textEditingController(controller: location,labletext: 'Location'),
-        textEditingController(controller: latitude, labletext: 'Latitude'),
-        textEditingController(controller: longitude, labletext: 'Longitude'),
-        textEditingController(controller: image,labletext: 'Image'),
-       
+        textEditingController(
+            controller: merchantId,
+            labletext: 'Merchant ID',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.key_rounded))),
+        textEditingController(
+            controller: merchantName,
+            labletext: 'Merchant Name',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.store))),
+        textEditingController(
+            controller: tel,
+            labletext: 'Telephone',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.phone))),
+        textEditingController(
+            controller: createAt,
+            labletext: 'Create Date',
+            suffixIcon: GestureDetector(
+                onTap: () async {
+                  DateTime? pickerDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101));
+
+                  if (pickerDate != null) {
+                    setState(() {
+                      createAt.text =
+                          DateFormat('dd-MMMM-yyyy').format(pickerDate);
+                    });
+                  }
+                },
+                child: const Icon(Icons.calendar_month_rounded))),
+        textEditingController(
+            controller: location,
+            labletext: 'Location',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.map_rounded))),
+        textEditingController(
+            controller: latitude,
+            labletext: 'Latitude',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.pin_drop_rounded))),
+        textEditingController(
+            controller: longitude,
+            labletext: 'Longitude',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.pin_drop_rounded))),
+        textEditingController(
+            controller: image,
+            labletext: 'Image',
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.image_rounded))),
         buttonSubmit,
       ],
     );
   }
 
-  Widget textEditingController({required TextEditingController controller, required String labletext}){
-    return Column(
-      children: [
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            child:  TextField(
-              controller: controller,
-              obscureText: false,
-              decoration:  InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: labletext,
-              ),
-              onSubmitted: (value) {
-                controller.text = value;
-              },
-            ),
+  Widget textEditingController({
+    required TextEditingController controller,
+    required String labletext,
+    Widget? suffixIcon,
+  }) {
+    return Column(children: [
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: TextField(
+          controller: controller,
+          obscureText: false,
+          decoration: InputDecoration(
+            suffixIcon: suffixIcon,
+            border: const OutlineInputBorder(),
+            labelText: labletext,
+          ),
+          onSubmitted: (value) {
+            controller.text = value;
+          },
         ),
-      ]
-    );
+      ),
+    ]);
   }
 
-  Widget get buttonSubmit{
+  Widget get buttonSubmit {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 8),
       child: Column(
@@ -93,13 +140,14 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
                 //onPressed for insert to firestore
                 onPressed: () async {
                   await merchants.add({
-                    'merchant_id' : merchantId.text,
-                    'merchant_name' : merchantName.text,
-                    'tel' : tel.text,
-                    'create_at' : createAt.text,
-                    'location' : location.text,
-                    'position' : GeoPoint(double.parse(latitude.text),double.parse(longitude.text)),
-                    'image' : image.text,
+                    'merchant_id': merchantId.text,
+                    'merchant_name': merchantName.text,
+                    'tel': tel.text,
+                    'create_at': createAt.text,
+                    'location': location.text,
+                    'position': GeoPoint(double.parse(latitude.text),
+                        double.parse(longitude.text)),
+                    'image': image.text,
                   }).then((value) => print(' Deliver Added'));
 
                   //clear text from testfeild

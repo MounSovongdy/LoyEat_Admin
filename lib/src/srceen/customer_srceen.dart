@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
+import 'package:intl/intl.dart';
 
 class CustomerScreen extends StatefulWidget {
   const CustomerScreen({Key? key}) : super(key: key);
@@ -46,53 +47,85 @@ class _CustomerScreenState extends State<CustomerScreen> {
             controller: customerId,
             labletext: 'Customer ID',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () => {}, child: const Icon(Icons.key_rounded))),
         textEditingController(
             controller: customerName,
             labletext: 'Customer Name',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () => {}, child: const Icon(Icons.person_rounded))),
         textEditingController(
             controller: gender,
             labletext: 'Gender',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () => {}, child: const Icon(Icons.person_rounded))),
         textEditingController(
             controller: tel,
             labletext: 'Telephone',
-            suffixIcon:
-                GestureDetector(onTap: () => {}, child: const Icon(Icons.phone))),
+            suffixIcon: GestureDetector(
+                onTap: () => {}, child: const Icon(Icons.phone))),
         textEditingController(
             controller: createAt,
             labletext: 'Create Date',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () async {
+                  DateTime? pickerDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101));
+
+                  if (pickerDate != null) {
+                    setState(() {
+                      createAt.text =
+                          DateFormat('dd-MMMM-yyyy').format(pickerDate);
+                    });
+                  } else {
+                    print("Date is not selected");
+                  }
+                },
+                child: const Icon(Icons.calendar_month_rounded))),
         textEditingController(
             controller: createTime,
             labletext: 'Create Time',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () async {
+                  TimeOfDay? pickedTime = await showTimePicker(
+                      initialTime: TimeOfDay.now(), context: context);
+
+                  if (pickedTime != null) {
+                    DateTime parsedTime = DateFormat.jm()
+                        .parse(pickedTime.format(context).toString());
+                    String formattedTime =
+                        DateFormat('HH:mm a').format(parsedTime);
+
+                    setState(() {
+                      createTime.text = formattedTime;
+                    });
+                  } else {
+                    print("Time is not selected");
+                  }
+                },
+                child: const Icon(Icons.timer_rounded))),
         textEditingController(
             controller: location,
             labletext: 'Location',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () => {}, child: const Icon(Icons.map_rounded))),
         textEditingController(
             controller: latitude,
             labletext: 'Latitude',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () => {}, child: const Icon(Icons.pin_drop_rounded))),
         textEditingController(
             controller: longitude,
             labletext: 'Longitude',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
+                onTap: () => {}, child: const Icon(Icons.pin_drop_rounded))),
         textEditingController(
             controller: image,
             labletext: 'Image',
             suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.calendar_month_rounded))),
-                
+                onTap: () => {}, child: const Icon(Icons.image_rounded))),
         buttonSubmit,
       ],
     );
