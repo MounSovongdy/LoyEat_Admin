@@ -75,7 +75,7 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
                     });
                   }
                 },
-                child: const Icon(Icons.calendar_month_rounded))),
+                child: const Icon(Icons.calendar_month_rounded)),),
         textEditingController(
             controller: location,
             labletext: 'Location',
@@ -175,5 +175,11 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
         ],
       ),
     );
+  }
+  void alert (){
+    const snackBar = SnackBar(
+            content: Text('Marchent Added'),
+          );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

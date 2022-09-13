@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class OrderSrceen extends StatefulWidget {
   const OrderSrceen({Key? key}) : super(key: key);
@@ -12,7 +13,6 @@ class OrderSrceen extends StatefulWidget {
 }
 
 class _CustomerScreenState extends State<OrderSrceen> {
-  
   final orderId = TextEditingController();
   final orderTime = TextEditingController();
   final orderDate = TextEditingController();
@@ -20,14 +20,15 @@ class _CustomerScreenState extends State<OrderSrceen> {
   final customerName = TextEditingController();
   final merchantId = TextEditingController();
   final merchantName = TextEditingController();
-  final period = TextEditingController(); 
+  final period = TextEditingController();
   final bonus = TextEditingController();
   final tip = TextEditingController();
   final totalDiscount = TextEditingController();
   final distance = TextEditingController();
   final deliveryFee = TextEditingController();
 
-  CollectionReference delivers = FirebaseFirestore.instance.collection('delivers');
+  CollectionReference delivers =
+      FirebaseFirestore.instance.collection('delivers');
   CollectionReference orders = FirebaseFirestore.instance.collection('orders');
 
   @override
@@ -48,25 +49,72 @@ class _CustomerScreenState extends State<OrderSrceen> {
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
         textEditingController(controller: orderId, labletext: 'Order ID'),
-        textEditingController(controller: orderTime, labletext: 'Order Time'),
-        textEditingController(controller: orderDate, labletext: 'Order Date'),
+        textEditingController(
+          controller: orderTime,
+          labletext: 'Order Time',
+          suffixIcon: GestureDetector(
+              onTap: () async {
+                TimeOfDay? pickedTime = await showTimePicker(
+                    initialTime: TimeOfDay.now(), context: context);
+
+                if (pickedTime != null) {
+                  DateTime parsedTime = DateFormat.jm()
+                      .parse(pickedTime.format(context).toString());
+                  String formattedTime = DateFormat('HH:mm').format(parsedTime);
+
+                  setState(() {
+                    orderTime.text = formattedTime;
+                  });
+                } else {
+                  print("Time is not selected");
+                }
+              },
+              child: const Icon(Icons.timer_rounded)),
+        ),
+        textEditingController(
+          controller: orderDate,
+          labletext: 'Order Date',
+          suffixIcon: GestureDetector(
+              onTap: () async {
+                DateTime? pickerDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2101));
+
+                if (pickerDate != null) {
+                  setState(() {
+                    orderDate.text =
+                        DateFormat('dd-MMM-yy').format(pickerDate);
+                  });
+                }
+              },
+              child: const Icon(Icons.calendar_month_rounded)),
+        ),
         textEditingController(controller: customerId, labletext: 'Customer ID'),
-        textEditingController(controller: customerName, labletext: 'Customer Name'),
+        textEditingController(
+            controller: customerName, labletext: 'Customer Name'),
         textEditingController(controller: merchantId, labletext: 'Merchant Id'),
-        textEditingController(controller: merchantName, labletext: 'Merchant Name'),
+        textEditingController(
+            controller: merchantName, labletext: 'Merchant Name'),
         textEditingController(controller: period, labletext: 'Order Period'),
         textEditingController(controller: bonus, labletext: 'Bonus'),
         textEditingController(controller: tip, labletext: 'Tip'),
-        textEditingController(controller: totalDiscount, labletext: 'Total Discount'),
+        textEditingController(
+            controller: totalDiscount, labletext: 'Total Discount'),
         textEditingController(controller: distance, labletext: 'Distance'),
-        textEditingController(controller: deliveryFee, labletext: 'Delivery Fee'),
+        textEditingController(
+            controller: deliveryFee, labletext: 'Delivery Fee'),
         buttonSubmit,
       ],
     );
   }
 
-  Widget textEditingController(
-      {required TextEditingController controller, required String labletext}) {
+  Widget textEditingController({
+    required TextEditingController controller,
+    required String labletext,
+    Widget? suffixIcon,
+  }) {
     return Column(children: [
       Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -74,6 +122,7 @@ class _CustomerScreenState extends State<OrderSrceen> {
           controller: controller,
           obscureText: false,
           decoration: InputDecoration(
+            suffixIcon: suffixIcon,
             border: const OutlineInputBorder(),
             labelText: labletext,
           ),
@@ -101,31 +150,32 @@ class _CustomerScreenState extends State<OrderSrceen> {
                 onPressed: () async {
                   await orders.add({
                     'customer_id': customerId.text,
-                    'customer_name' : customerName.text,
-                    'date' : orderDate.text,
-                    'is_new' : true,
-                    'merchant_id' : merchantId.text,
-                    'merchant_name' : merchantName.text,
-                    'order_id' : orderId.text,
-                    'time' : orderTime.text,
-                    'total_discount' : totalDiscount.text,
+                    'customer_name': customerName.text,
+                    'date': orderDate.text,
+                    'driver id': '',
+                    'is_new': true,
+                    'merchant_id': merchantId.text,
+                    'merchant_name': merchantName.text,
+                    'order_id': orderId.text,
+                    'time': orderTime.text,
+                    'total_discount': totalDiscount.text,
                   }).then((value) => print('added'));
 
                   await delivers.add({
-                    'bouns' : bonus.text,
-                    'customer_rating' : '',
-                    'date' : orderDate.text,
-                    'delivery_fee' : deliveryFee.text,
-                    'distance' : distance.text,
+                    'bouns': bonus.text,
+                    'customer_rating': '',
+                    'date': orderDate.text,
+                    'delivery_fee': deliveryFee.text,
+                    'distance': distance.text,
                     'merchant_rating': '',
-                    'order_id' : orderId.text,
-                    'period' : period.text,
-                    'process' : '',
-                    'step_1' : false,
-                    'step_2' : false,
-                    'step_3' : false,
-                    'step_4' : false,
-                    'tip' : tip.text,
+                    'order_id': orderId.text,
+                    'period': period.text,
+                    'process': '',
+                    'step_1': false,
+                    'step_2': false,
+                    'step_3': false,
+                    'step_4': false,
+                    'tip': tip.text,
                   }).then((value) => alert());
 
                   //clear text from testfeild
@@ -160,10 +210,10 @@ class _CustomerScreenState extends State<OrderSrceen> {
     );
   }
 
-  void alert (){
+  void alert() {
     const snackBar = SnackBar(
-            content: Text('Order Added'),
-          );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      content: Text('Order Sueccesfully'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

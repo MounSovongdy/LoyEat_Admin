@@ -207,4 +207,11 @@ class _CustomerScreenState extends State<CustomerScreen> {
       ),
     );
   }
+
+  void alert (){
+    const snackBar = SnackBar(
+            content: Text('Customer Added'),
+          );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
