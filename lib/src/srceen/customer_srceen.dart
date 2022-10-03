@@ -77,7 +77,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                   if (pickerDate != null) {
                     setState(() {
                       createAt.text =
-                          DateFormat('dd-MMMM-yyyy').format(pickerDate);
+                          DateFormat('dd-MMMM-yy').format(pickerDate);
                     });
                   } else {
                     print("Date is not selected");

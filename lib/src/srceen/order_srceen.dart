@@ -60,7 +60,7 @@ class _CustomerScreenState extends State<OrderSrceen> {
                 if (pickedTime != null) {
                   DateTime parsedTime = DateFormat.jm()
                       .parse(pickedTime.format(context).toString());
-                  String formattedTime = DateFormat('HH:mm').format(parsedTime);
+                  String formattedTime = DateFormat('HH:mm a').format(parsedTime);
 
                   setState(() {
                     orderTime.text = formattedTime;
@@ -152,7 +152,7 @@ class _CustomerScreenState extends State<OrderSrceen> {
                     'customer_id': customerId.text,
                     'customer_name': customerName.text,
                     'date': orderDate.text,
-                    'driver id': '',
+                    'driver_id': '',
                     'is_new': true,
                     'merchant_id': merchantId.text,
                     'merchant_name': merchantName.text,
@@ -162,7 +162,7 @@ class _CustomerScreenState extends State<OrderSrceen> {
                   }).then((value) => print('added'));
 
                   await delivers.add({
-                    'bouns': bonus.text,
+                    'bonus': bonus.text,
                     'customer_rating': '',
                     'date': orderDate.text,
                     'delivery_fee': deliveryFee.text,
