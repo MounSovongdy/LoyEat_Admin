@@ -30,6 +30,8 @@ class _CustomerScreenState extends State<OrderSrceen> {
   CollectionReference delivers =
       FirebaseFirestore.instance.collection('delivers');
   CollectionReference orders = FirebaseFirestore.instance.collection('orders');
+  CollectionReference driverReport =
+      FirebaseFirestore.instance.collection('driver_reports');
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,8 @@ class _CustomerScreenState extends State<OrderSrceen> {
                 if (pickedTime != null) {
                   DateTime parsedTime = DateFormat.jm()
                       .parse(pickedTime.format(context).toString());
-                  String formattedTime = DateFormat('HH:mm a').format(parsedTime);
+                  String formattedTime =
+                      DateFormat('HH:mm a').format(parsedTime);
 
                   setState(() {
                     orderTime.text = formattedTime;
@@ -84,8 +87,7 @@ class _CustomerScreenState extends State<OrderSrceen> {
 
                 if (pickerDate != null) {
                   setState(() {
-                    orderDate.text =
-                        DateFormat('dd-MMM-yy').format(pickerDate);
+                    orderDate.text = DateFormat('dd-MMM-yy').format(pickerDate);
                   });
                 }
               },
@@ -159,15 +161,15 @@ class _CustomerScreenState extends State<OrderSrceen> {
                     'order_id': orderId.text,
                     'time': orderTime.text,
                     'total_discount': totalDiscount.text,
-                  }).then((value) => print('added'));
+                  }).then((value) => debugPrint('added'));
 
                   await delivers.add({
                     'bonus': bonus.text,
-                    'customer_rating': '',
+                    'customer_rating': '5.0',
                     'date': orderDate.text,
                     'delivery_fee': deliveryFee.text,
                     'distance': distance.text,
-                    'merchant_rating': '',
+                    'merchant_rating': '5.0',
                     'order_id': orderId.text,
                     'period': period.text,
                     'process': '',
@@ -177,6 +179,30 @@ class _CustomerScreenState extends State<OrderSrceen> {
                     'step_4': false,
                     'tip': tip.text,
                   }).then((value) => alert());
+
+                  final data = driverReport.where('date', isEqualTo: orderDate.text).snapshots();
+
+                  data.listen((event) async {
+                    if (event.docs.isEmpty) {
+                      await driverReport.add({
+                        'bonus': bonus.text,
+                        'customer_rating': '5.0',
+                        'date': orderDate.text,
+                        'delivery_fee': deliveryFee.text,
+                        'distance': distance.text,
+                        'driver_id': '',
+                        'merchant_rating': '5.0',
+                        'online_hour': '0',
+                        'online_minute': '0',
+                        'point': '',
+                        'tip': '',
+                        'trip': '',
+                        'day': 1,
+                        'month': 1,
+                        'year': 2020,
+                      }).then((value) => debugPrint('added'));
+                    }
+                  });
 
                   //clear text from testfeild
                   orderId.clear();
