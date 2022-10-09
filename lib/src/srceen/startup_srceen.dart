@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:loyeat_admin/src/srceen/order_page.dart';
 import 'customer_srceen.dart';
 import 'order_srceen.dart';
 import 'marchants_srceen.dart';
@@ -85,7 +86,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const OrderSrceen()),
+                      builder: (context) => const OrderPage()),
                 );
               },
               color: Colors.blue,
