@@ -11,6 +11,7 @@ class OrderPageDetail extends StatefulWidget {
 
 class _OrderPageDetailState extends State<OrderPageDetail> {
   @override
+
   final List<String> entries = <String>[
     'A',
     'B',
@@ -38,41 +39,51 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
   );
 
   Widget get body {
-    return SingleChildScrollView(
-      //padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          Center(
+    return ListView.builder(
+      padding: const EdgeInsets.all(8),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: 12,
+      itemBuilder: (BuildContext context, int index) {
+          return InkWell(
             child: Container(
-              width: 350,
-              height: 150,
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+              height: 80,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 29, 21, 2),
+                color: Color.fromARGB(255, 179, 179, 178),
                 borderRadius: BorderRadius.circular(10),
               ),
-              margin: const EdgeInsets.all(8),
-              child: const Center(child: Text('Entry A')),
-            ),
-          ),
-          ListView.builder(
-              padding: const EdgeInsets.all(8),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: 12,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 230, 166, 18),
-                    borderRadius: BorderRadius.circular(10),
-                    //margin: const EdgeInsets.all(8),
+              //child: Text('Entry ${entries[index]}'),
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: const Text("Honey Black Coffee",style: TextStyle(fontWeight: FontWeight.bold),),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        child: const Text("New Product!!"),
+                      ),
+
+                    ],
                   ),
-                  child: Center(child: Text('Entry ${entries[index]}')),
-                );
-              }),
-        ],
-      ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                      child: const Text("Price: 2.35"),
+                    ),
+                ],
+              ),
+            ),
+            onTap: () {
+              setState(() {
+              
+              });
+            },
+          );
+        },
     );
   }
 }
