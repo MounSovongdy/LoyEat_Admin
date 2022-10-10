@@ -11,6 +11,21 @@ class OrderPageDetail extends StatefulWidget {
 
 class _OrderPageDetailState extends State<OrderPageDetail> {
   @override
+  final List<String> entries = <String>[
+    'A',
+    'B',
+    'C',
+    'A',
+    'B',
+    'C',
+    'A',
+    'B',
+    'C',
+    'A',
+    'B',
+    'C'
+  ];
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar,
@@ -22,47 +37,42 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
     title: const Text('Order Page'),
   );
 
-  Widget get body{
-    return Container(
-      width: 350,
-        height: 150,
-        decoration: BoxDecoration(
-          color: Colors.amber[600],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.all(8),
-        child: const Center(child: Text('Entry A')),
-    );
-  }
-  Widget get listitem{
-    return ListView(
-      children: [
-              Center(
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: RaisedButton(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const OrderPageDetail()),
-                      );
-                    },
-                    color: Colors.blue,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: const Text(
-                      "Amazon Cofe (Bak Tuk)",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+  Widget get body {
+    return SingleChildScrollView(
+      //padding: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          Center(
+            child: Container(
+              width: 350,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 29, 21, 2),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ],
+              margin: const EdgeInsets.all(8),
+              child: const Center(child: Text('Entry A')),
+            ),
+          ),
+          ListView.builder(
+              padding: const EdgeInsets.all(8),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: 12,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 230, 166, 18),
+                    borderRadius: BorderRadius.circular(10),
+                    //margin: const EdgeInsets.all(8),
+                  ),
+                  child: Center(child: Text('Entry ${entries[index]}')),
+                );
+              }),
+        ],
+      ),
     );
   }
 }
