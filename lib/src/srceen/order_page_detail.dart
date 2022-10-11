@@ -12,21 +12,6 @@ class OrderPageDetail extends StatefulWidget {
 class _OrderPageDetailState extends State<OrderPageDetail> {
   @override
 
-  final List<String> entries = <String>[
-    'A',
-    'B',
-    'C',
-    'A',
-    'B',
-    'C',
-    'A',
-    'B',
-    'C',
-    'A',
-    'B',
-    'C'
-  ];
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar,
@@ -50,30 +35,39 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
               height: 80,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 179, 179, 178),
+                color: Color.fromARGB(255, 233, 233, 232),
                 borderRadius: BorderRadius.circular(10),
               ),
               //child: Text('Entry ${entries[index]}'),
-              child: Row(
+              child: Column(
                 children: [
-                  Column(
+                  Row(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Container(
+                          height: 72.0,
+                          width: 72.0,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('lib/images/amazon_coffee.jpg'),
+                              fit: BoxFit.fill,
+                            ),
+                            shape: BoxShape.circle,
+                        ),
+                        ),
+                      ),
                       Container(
                         padding: const EdgeInsets.all(8),
-                        child: const Text("Honey Black Coffee",style: TextStyle(fontWeight: FontWeight.bold),),
+                        child: const Text("Amazon Coffee",style: TextStyle(fontWeight: FontWeight.bold),),
                       ),
+                      const Spacer(),
                       Container(
-                        padding: const EdgeInsets.all(12),
-                        child: const Text("New Product!!"),
+                        padding: const EdgeInsets.all(8),
+                        child: const Text("2.23\$",style: TextStyle(fontWeight: FontWeight.bold),),
                       ),
-
                     ],
                   ),
-                  const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                      child: const Text("Price: 2.35"),
-                    ),
                 ],
               ),
             ),
