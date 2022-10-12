@@ -1,8 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_page_detail_controller.dart';
 import 'package:loyeat_admin/src/controller/remote_data.dart';
 import 'package:loyeat_admin/src/srceen/order_srceen.dart';
+
+import 'customer_srceen.dart';
 
 class OrderPageDetail extends StatefulWidget {
   const OrderPageDetail({Key? key}) : super(key: key);
@@ -84,10 +88,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               ),
               onTap: () {
                 setState(() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const OrderSrceen()),
-                  );
+                  showBottomSheet(context: context, builder: _buildBottomSheet);
                 });
               },
             );
@@ -95,5 +96,75 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
         );
       }
     });
+  }
+  Widget _buildBottomSheet(BuildContext context) {
+    return Container(
+      height: 200,
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.blue, width: 2.0),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Column(
+        children: [
+          const Center(child: Text('Green Tea latte',style: TextStyle(fontWeight: FontWeight.bold))),
+          // Padding(
+          //   padding: const EdgeInsets.all(32),
+          //   child: Container(
+          //     width: 100,
+          //     height: 40.0, 
+          //     child: Row(
+          //       children: [
+          //         Padding(
+          //           padding: const EdgeInsets.all(4),
+          //           child: RaisedButton(
+          //             child: const Text('-'),
+          //           onPressed: () {
+
+          //           },
+          //           ),
+          //         ),
+          //         Spacer(),
+          //         Padding(
+          //           padding: const EdgeInsets.all(4),
+          //           child: RaisedButton(
+          //             child: const Text('+'),
+          //           onPressed: () {
+
+          //           },
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          const Spacer(),
+          Container(
+            child: SizedBox(
+                width: 400,
+                child: RaisedButton(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CustomerScreen()),
+                    );
+                  }, 
+                  color: Colors.blue,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: const Text(
+                    "Add To Cart",
+                    style: TextStyle(
+                      color: Colors.white, 
+                    ),
+                  ),
+                ),
+              ),
+          ),
+        ],
+      ),
+    );
   }
 }
