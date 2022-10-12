@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loyeat_admin/src/controller/order_page_controller.dart';
 import 'package:loyeat_admin/src/srceen/order_page.dart';
 import 'customer_srceen.dart';
-import 'order_srceen.dart';
 import 'marchants_srceen.dart';
 
 class StartUpSrceen extends StatefulWidget {
@@ -13,6 +14,15 @@ class StartUpSrceen extends StatefulWidget {
 }
 
 class _StartUpSrceenState extends State<StartUpSrceen> {
+  final controller = Get.put(OrderPageController());
+
+
+  @override
+  void initState() {
+    super.initState();
+    controller.loadMerchantData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +79,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5))),
               child: const Text(
-                "Marchent Page",
+                "Merchant Page",
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -85,8 +95,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const OrderPage()),
+                  MaterialPageRoute(builder: (context) => OrderPage()),
                 );
               },
               color: Colors.blue,

@@ -1,20 +1,14 @@
-// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'package:loyeat_admin/src/controller/order_page_controller.dart';
 import 'package:loyeat_admin/src/srceen/order_page_detail.dart';
 
-class OrderPage extends StatefulWidget {
-  const OrderPage({Key? key}) : super(key: key);
+class OrderPage extends StatelessWidget {
+  OrderPage({Key? key}) : super(key: key);
+
+  final controller = Get.put(OrderPageController());
 
   @override
-  State<OrderPage> createState() => _OrderPageState();
-}
-
-class _OrderPageState extends State<OrderPage> {
-  @override
-  final List<String> store = <String>['Cafe Amazon (Bak Tuk)','Ptas Bay Khmer','Sach Ang Pises','Oun KuTeav'];
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar,
@@ -31,51 +25,39 @@ class _OrderPageState extends State<OrderPage> {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: 4,
+      itemCount: controller.listStoreName.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+              height: 220,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 233, 233, 232),
+                borderRadius: BorderRadius.circular(10),
+                image: const DecorationImage(
+                  image: AssetImage('lib/images/logo_amazon.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
+                  const Spacer(),
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
-                    height: 220,
+                    height: 64,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 233, 233, 232),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage('lib/images/logo_amazon.jpg'),
-                        fit: BoxFit.cover,
-                      ),
                     ),
-                    child: Column(
-                      children: [
-                        const Spacer(),
-                        Container(
-                          height: 64,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(child: Text('${store[index]}',style: const TextStyle(fontWeight: FontWeight.bold),),),
-                        ),
-                      ],
-                    ),
+                    child: Center(child: Text(controller.listStoreName[index], style: const TextStyle(fontWeight: FontWeight.bold))),
                   ),
                 ],
               ),
             ),
-            onTap: () {
-              setState(() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const OrderPageDetail()),
-                );
-              });
-            },
-          );
+          ),
+          onTap: () => Get.to(() => const OrderPageDetail(), arguments: {'merchantName': controller.listStoreName[index]}),
+        );
       },
     );
   }
