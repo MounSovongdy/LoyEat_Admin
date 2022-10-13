@@ -56,7 +56,7 @@ class OrderPage extends StatelessWidget {
               ),
             ),
           ),
-          onTap: () => Get.to(() => const OrderPageDetail(), arguments: {'merchantName': controller.listStoreName[index]}),
+          onTap: () => Get.to(() => OrderPageDetail(), arguments: {'merchantName': controller.listStoreName[index]}),
         );
       },
     );

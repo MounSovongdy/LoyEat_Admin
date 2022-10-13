@@ -1,10 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:counter_button/counter_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_page_detail_controller.dart';
 import 'package:loyeat_admin/src/controller/remote_data.dart';
-import 'package:loyeat_admin/src/srceen/order_srceen.dart';
 
 import 'customer_srceen.dart';
 
@@ -18,6 +18,20 @@ class OrderPageDetail extends StatefulWidget {
 class _OrderPageDetailState extends State<OrderPageDetail> {
   final controller = Get.put(OrderPageDetailController());
 
+  int _count = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _count++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _count--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,15 +42,17 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
   }
 
   Widget get body {
-    return  Obx(() {
+    return Obx(() {
       final productNameStatus = controller.productNameData.status;
       final productPriceStatus = controller.productPriceData.status;
 
-      if (productNameStatus == RemoteDataStatus.processing && productPriceStatus == RemoteDataStatus.processing) {
+      if (productNameStatus == RemoteDataStatus.processing &&
+          productPriceStatus == RemoteDataStatus.processing) {
         return const Center(
           child: CircularProgressIndicator(),
         );
-      } else if (productNameStatus == RemoteDataStatus.error && productPriceStatus == RemoteDataStatus.error) {
+      } else if (productNameStatus == RemoteDataStatus.error &&
+          productPriceStatus == RemoteDataStatus.error) {
         return const Text('Error while loading data from server.');
       } else {
         final name = controller.productNameData.data!;
@@ -65,7 +81,8 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
                             width: 72.0,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage('lib/images/amazon_coffee.jpg'),
+                                image:
+                                    AssetImage('lib/images/amazon_coffee.jpg'),
                                 fit: BoxFit.fill,
                               ),
                               shape: BoxShape.circle,
@@ -74,12 +91,16 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
                         ),
                         Container(
                           padding: const EdgeInsets.all(8),
-                          child: Text('${controller.listProductName[index]}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text('${controller.listProductName[index]}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                         ),
                         const Spacer(),
                         Container(
                           padding: const EdgeInsets.all(8),
-                          child: Text('\$${controller.listProductPrice[index]}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text('\$${controller.listProductPrice[index]}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ),
@@ -97,6 +118,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
       }
     });
   }
+
   Widget _buildBottomSheet(BuildContext context) {
     return Container(
       height: 200,
@@ -107,61 +129,72 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
       ),
       child: Column(
         children: [
-          const Center(child: Text('Green Tea latte',style: TextStyle(fontWeight: FontWeight.bold))),
-          // Padding(
-          //   padding: const EdgeInsets.all(32),
-          //   child: Container(
-          //     width: 100,
-          //     height: 40.0, 
-          //     child: Row(
-          //       children: [
-          //         Padding(
-          //           padding: const EdgeInsets.all(4),
-          //           child: RaisedButton(
-          //             child: const Text('-'),
-          //           onPressed: () {
+          const Center(
+              child: Text('Green Tea latte',
+                  style: TextStyle(fontWeight: FontWeight.bold))),
+          Container(
+            padding: const EdgeInsets.all(32),
+            // decoration: BoxDecoration(
+            //     color: Color.fromARGB(255, 192, 178, 178),
+            //     borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
+                  onPressed: _incrementCounter,
+                  icon: const Icon(Icons.add),
+                ),
+                Text('$_count'),
+                IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
+                  onPressed: _decrementCounter,
+                  icon: const Icon(Icons.remove),
+                ),
+              ]
+            ),
+          ),
 
-          //           },
-          //           ),
-          //         ),
-          //         Spacer(),
-          //         Padding(
-          //           padding: const EdgeInsets.all(4),
-          //           child: RaisedButton(
-          //             child: const Text('+'),
-          //           onPressed: () {
-
-          //           },
-          //           ),
-          //         ),
-          //       ],
+          // Container(
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(32),
+          //     child: CounterButton(
+          //       loading: false,
+          //       onChange: (int val) {
+          //         setState(() {
+          //           _counterValue;
+          //         });
+          //       },
+          //       count: _counterValue,
+          //       countColor: Color.fromARGB(255, 64, 157, 251),
+          //       buttonColor: Color.fromARGB(255, 64, 157, 251),
+          //       progressColor: Color.fromARGB(255, 64, 157, 251),
           //     ),
           //   ),
           // ),
           const Spacer(),
-          Container(
-            child: SizedBox(
-                width: 400,
-                child: RaisedButton(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CustomerScreen()),
-                    );
-                  }, 
-                  color: Colors.blue,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
-                  child: const Text(
-                    "Add To Cart",
-                    style: TextStyle(
-                      color: Colors.white, 
-                    ),
-                  ),
+          SizedBox(
+            width: 400,
+            child: RaisedButton(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CustomerScreen()),
+                );
+              },
+              color: Colors.blue,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              child: const Text(
+                "Add To Cart",
+                style: TextStyle(
+                  color: Colors.white,
                 ),
               ),
+            ),
           ),
         ],
       ),
