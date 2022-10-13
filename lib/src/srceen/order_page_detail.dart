@@ -18,7 +18,7 @@ class OrderPageDetail extends StatefulWidget {
 class _OrderPageDetailState extends State<OrderPageDetail> {
   final controller = Get.put(OrderPageDetailController());
 
-  int _count = 0;
+  int _count = 1;
 
   void _incrementCounter() {
     setState(() {
@@ -35,11 +35,20 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(controller.merchantName.value)),
+      appBar: AppBar(title: Text(controller.merchantName.value),
+        actions: [
+         IconButton(
+          onPressed:() {
+            
+          },
+          icon: const Icon(Icons.shopping_cart)),
+        ],
+      ),
       body: body,
       backgroundColor: const Color.fromARGB(255, 199, 199, 198),
     );
   }
+
 
   Widget get body {
     return Obx(() {
@@ -131,7 +140,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
         children: [
           const Center(
               child: Text('Green Tea latte',
-                  style: TextStyle(fontWeight: FontWeight.bold))),
+                  style: TextStyle(fontWeight: FontWeight.bold),),),
           Container(
             padding: const EdgeInsets.all(32),
             // decoration: BoxDecoration(
@@ -141,15 +150,15 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
                 IconButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
-                  onPressed: _incrementCounter,
-                  icon: const Icon(Icons.add),
-                ),
-                Text('$_count'),
-                IconButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 0),
                   onPressed: _decrementCounter,
                   icon: const Icon(Icons.remove),
+                ),
+                Text('$_count',style: const TextStyle(fontWeight: FontWeight.bold)),
+                IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 0),
+                  onPressed: _incrementCounter,
+                  icon: const Icon(Icons.add),
                 ),
               ]
             ),

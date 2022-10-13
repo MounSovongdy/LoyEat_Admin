@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_page_controller.dart';
+import 'package:loyeat_admin/src/srceen/admin_srceen.dart';
 import 'package:loyeat_admin/src/srceen/order_page.dart';
 import 'customer_srceen.dart';
 import 'marchants_srceen.dart';
@@ -103,6 +104,29 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
                   borderRadius: BorderRadius.all(Radius.circular(5))),
               child: const Text(
                 "Order Page",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ), 
+          ),
+        ),
+        Center(
+          child: SizedBox(
+            width: 350,
+            child: RaisedButton(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AdminSrceen()),
+                );
+              },
+              color: Colors.blue,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              child: const Text(
+                "Admin Page",
                 style: TextStyle(
                   color: Colors.white,
                 ),
