@@ -26,6 +26,19 @@ class OrderPageDetailController extends GetxController {
     loadProductData();
   }
 
+  var count = 1.obs;
+  var qty = 0.obs;
+  var listOrder = [];
+  var mapProduct = {};
+
+  void incrementCounter() {
+    count++;
+  }
+
+  void decrementCounter() {
+    count--;
+  }
+
   loadProductData() async {
     await merchants
         .where('merchant_name', isEqualTo: merchantName.value)

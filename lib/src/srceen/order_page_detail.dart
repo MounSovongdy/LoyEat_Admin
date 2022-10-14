@@ -18,37 +18,19 @@ class OrderPageDetail extends StatefulWidget {
 class _OrderPageDetailState extends State<OrderPageDetail> {
   final controller = Get.put(OrderPageDetailController());
 
-  int _count = 1;
-
-  void _incrementCounter() {
-    setState(() {
-      _count++;
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      _count--;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(controller.merchantName.value),
+      appBar: AppBar(
+        title: Text(controller.merchantName.value),
         actions: [
-         IconButton(
-          onPressed:() {
-            
-          },
-          icon: const Icon(Icons.shopping_cart)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
         ],
       ),
       body: body,
       backgroundColor: const Color.fromARGB(255, 199, 199, 198),
     );
   }
-
 
   Widget get body {
     return Obx(() {
@@ -118,7 +100,12 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               ),
               onTap: () {
                 setState(() {
-                  showBottomSheet(context: context, builder: _buildBottomSheet);
+                  showBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return _buildBottomSheet(
+                            controller.listProductName[index]);
+                      });
                 });
               },
             );
@@ -128,7 +115,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
     });
   }
 
-  Widget _buildBottomSheet(BuildContext context) {
+  Widget _buildBottomSheet(String title) {
     return Container(
       height: 200,
       padding: const EdgeInsets.all(8.0),
@@ -138,30 +125,39 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
       ),
       child: Column(
         children: [
-          const Center(
-              child: Text('Green Tea latte',
-                  style: TextStyle(fontWeight: FontWeight.bold),),),
+          Center(
+            child: Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           Container(
             padding: const EdgeInsets.all(32),
             // decoration: BoxDecoration(
             //     color: Color.fromARGB(255, 192, 178, 178),
             //     borderRadius: BorderRadius.circular(10)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                IconButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 0),
-                  onPressed: _decrementCounter,
-                  icon: const Icon(Icons.remove),
-                ),
-                Text('$_count',style: const TextStyle(fontWeight: FontWeight.bold)),
-                IconButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 0),
-                  onPressed: _incrementCounter,
-                  icon: const Icon(Icons.add),
-                ),
-              ]
-            ),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              IconButton(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                onPressed: () {
+                  controller.decrementCounter();
+                },
+                icon: const Icon(Icons.remove),
+              ),
+              Obx(
+                () => Text('${controller.count}',
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              IconButton(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                onPressed: () {
+                  controller.incrementCounter();
+                },
+                icon: const Icon(Icons.add),
+              ),
+            ]),
           ),
 
           // Container(
@@ -185,14 +181,19 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
           SizedBox(
             width: 400,
             child: RaisedButton(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CustomerScreen()),
-                );
+                controller.qty.value = controller.count.value;
+                controller.count.value = 1;
+                debugPrint('qty: ${controller.qty.value}');
+                Navigator.pop(context);
+                controller.mapProduct = {'product_id': '', 'qty': controller.qty.value};
+
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => const CustomerScreen()),
+                // );
               },
               color: Colors.blue,
               shape: const RoundedRectangleBorder(
