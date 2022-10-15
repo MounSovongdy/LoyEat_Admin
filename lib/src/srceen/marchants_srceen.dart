@@ -1,7 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
+import 'package:get/get.dart';
+import 'package:loyeat_admin/src/controller/order_page_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
@@ -22,8 +23,14 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
   final longitude = TextEditingController();
   final image = TextEditingController();
 
+  final controller = Get.put(OrderPageController());
+
   CollectionReference merchants =
       FirebaseFirestore.instance.collection('merchants');
+
+        CollectionReference merchantData =
+      FirebaseFirestore.instance.collection('merchant_data');
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,24 +65,25 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
             suffixIcon: GestureDetector(
                 onTap: () => {}, child: const Icon(Icons.phone))),
         textEditingController(
-            controller: createAt,
-            labletext: 'Create Date',
-            suffixIcon: GestureDetector(
-                onTap: () async {
-                  DateTime? pickerDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2101));
+          controller: createAt,
+          labletext: 'Create Date',
+          suffixIcon: GestureDetector(
+              onTap: () async {
+                DateTime? pickerDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2101));
 
-                  if (pickerDate != null) {
-                    setState(() {
-                      createAt.text =
-                          DateFormat('dd-MMMM-yyyy').format(pickerDate);
-                    });
-                  }
-                },
-                child: const Icon(Icons.calendar_month_rounded)),),
+                if (pickerDate != null) {
+                  setState(() {
+                    createAt.text =
+                        DateFormat('dd-MMM-yy').format(pickerDate);
+                  });
+                }
+              },
+              child: const Icon(Icons.calendar_month_rounded)),
+        ),
         textEditingController(
             controller: location,
             labletext: 'Location',
@@ -147,8 +155,18 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
                     'location': location.text,
                     'position': GeoPoint(double.parse(latitude.text),
                         double.parse(longitude.text)),
-                    'image': image.text,
-                  }).then((value) => print(' Deliver Added'));
+                    'image': 'assets/image/${image.text}',
+                  }).then((value) {
+                    debugPrint('merchant added');
+                  });
+
+                    await merchantData.add({
+                    'merchant_id': merchantId.text,
+                    'delivery_fee': '1.25',
+                    'distance': '5.50',
+                  }).then((value) {
+                    debugPrint('merchant added');
+                  });
 
                   //clear text from testfeild
                   merchantId.clear();
@@ -176,10 +194,11 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
       ),
     );
   }
-  void alert (){
+
+  void alert() {
     const snackBar = SnackBar(
-            content: Text('Marchent Added'),
-          );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      content: Text('Marchent Added'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

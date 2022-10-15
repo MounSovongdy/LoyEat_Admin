@@ -20,9 +20,13 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
       appBar: AppBar(
         title: Text(controller.merchantName.value),
         actions: [
-         controller.showOrder.isNotEmpty ? IconButton(onPressed: () {
-            Get.to(() => const ViewOrderItemScreen());
-          }, icon: const Icon(Icons.shopping_cart)) : const SizedBox(),
+          controller.showOrder.isNotEmpty
+              ? IconButton(
+                  onPressed: () {
+                    Get.to(() => const ViewOrderItemScreen());
+                  },
+                  icon: const Icon(Icons.shopping_cart))
+              : const SizedBox(),
         ],
       ),
       body: body,
@@ -71,7 +75,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image:
-                                    AssetImage('lib/images/amazon_coffee.jpg'),
+                                    AssetImage('assets/image/amazon_coffee.jpg'),
                                 fit: BoxFit.fill,
                               ),
                               shape: BoxShape.circle,
@@ -99,7 +103,8 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               onTap: () {
                 setState(() {
                   controller.loadProductID(controller.listProductName[index]);
-                  controller.proPrice.value = controller.listProductPrice[index];
+                  controller.proPrice.value =
+                      controller.listProductPrice[index];
                   showBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
@@ -156,7 +161,6 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               ),
             ]),
           ),
-
           const Spacer(),
           SizedBox(
             width: 400,
@@ -170,17 +174,23 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
                 controller.count.value = 1;
 
                 // for firebase
-                controller.mapProduct = {'product_id': controller.proId.value, 'qty': controller.qty.value};
+                controller.mapProduct = {
+                  'product_id': controller.proId.value,
+                  'qty': '${controller.qty.value}'
+                };
                 controller.listOrder.add(controller.mapProduct);
 
                 // for show report
-                controller.showProduct = {'product_name': title, 'qty': controller.qty.value, 'product_price': controller.proPrice.value};
+                controller.showProduct = {
+                  'product_name': title,
+                  'qty': controller.qty.value,
+                  'product_price': controller.proPrice.value
+                };
                 controller.showOrder.add(controller.showProduct);
 
                 debugPrint('listOrder: ${controller.listOrder}');
 
-                setState((){});
-
+                setState(() {});
               },
               color: Colors.blue,
               shape: const RoundedRectangleBorder(

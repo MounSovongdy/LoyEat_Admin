@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_page_controller.dart';
 import 'package:loyeat_admin/src/srceen/admin_srceen.dart';
 import 'package:loyeat_admin/src/srceen/login_srceen.dart';
-import 'customer_srceen.dart';
 import 'marchants_srceen.dart';
 
 class StartUpSrceen extends StatefulWidget {
@@ -17,11 +16,10 @@ class StartUpSrceen extends StatefulWidget {
 class _StartUpSrceenState extends State<StartUpSrceen> {
   final controller = Get.put(OrderPageController());
 
-
   @override
   void initState() {
     super.initState();
-    controller.loadMerchantData();
+    
   }
 
   @override
@@ -40,30 +38,30 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(
-          child: SizedBox(
-            width: 350,
-            child: RaisedButton(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CustomerScreen()),
-                );
-              }, 
-              color: Colors.blue,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
-              child: const Text(
-                "Customer Page",
-                style: TextStyle(
-                  color: Colors.white, 
-                ),
-              ),
-            ),
-          ),
-        ), 
+        // Center(
+        //   child: SizedBox(
+        //     width: 350,
+        //     child: RaisedButton(
+        //       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+        //       onPressed: () {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //               builder: (context) => const CustomerScreen()),
+        //         );
+        //       },
+        //       color: Colors.blue,
+        //       shape: const RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.all(Radius.circular(5))),
+        //       child: const Text(
+        //         "Customer Page",
+        //         style: TextStyle(
+        //           color: Colors.white,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         Center(
           child: SizedBox(
             width: 350,
@@ -94,6 +92,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
             child: RaisedButton(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               onPressed: () {
+                controller.loadMerchantData();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginSrceen()),
@@ -108,7 +107,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
                   color: Colors.white,
                 ),
               ),
-            ), 
+            ),
           ),
         ),
         Center(
@@ -131,7 +130,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
                   color: Colors.white,
                 ),
               ),
-            ), 
+            ),
           ),
         )
       ],

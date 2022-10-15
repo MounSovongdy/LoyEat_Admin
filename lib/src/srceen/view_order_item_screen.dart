@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:loyeat_admin/src/controller/login_controller.dart';
 import 'package:loyeat_admin/src/controller/order_page_detail_controller.dart';
+import 'package:loyeat_admin/src/srceen/order_page.dart';
 
 class ViewOrderItemScreen extends StatefulWidget {
   const ViewOrderItemScreen({Key? key}) : super(key: key);
@@ -13,13 +14,13 @@ class ViewOrderItemScreen extends StatefulWidget {
 }
 
 class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
-
   final controller = Get.put(OrderPageDetailController());
   final loginController = Get.put(LoginController());
 
-  final orderCollection  = FirebaseFirestore.instance.collection('orders');
+  final orderCollection = FirebaseFirestore.instance.collection('orders');
   final delivers = FirebaseFirestore.instance.collection('delivers');
   final orders = FirebaseFirestore.instance.collection('orders');
+  final orderDetail = FirebaseFirestore.instance.collection('orders_detail');
 
   String? today;
   String? time;
@@ -33,13 +34,12 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
           final lastID = data['order_id'];
           var newID = int.parse(lastID) + 1;
           debugPrint('newID: $newID');
-          setState((){
+          setState(() {
             orderId = newID.toString();
           });
         }
-      }
-      else {
-        setState((){
+      } else {
+        setState(() {
           orderId = '${orderDate}001';
         });
       }
@@ -65,9 +65,15 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          leading: InkWell(onTap: ()=> Get.back(), child: const Icon(Icons.arrow_back_ios_sharp, color: Colors.black)),
+          leading: InkWell(
+              onTap: () => Get.back(),
+              child:
+                  const Icon(Icons.arrow_back_ios_sharp, color: Colors.black)),
           backgroundColor: Colors.white,
-          title: const Text('Your Order', style: TextStyle(color: Colors.black),),
+          title: const Text(
+            'Your Order',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
         body: Container(
           margin: const EdgeInsets.fromLTRB(15, 5, 15, 0),
@@ -75,18 +81,22 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildTextValue('Order ID', orderId.toString()),
-              buildTextValue('Order date', '${today.toString()} ${time.toString()}'),
-              Obx(() => buildTextValue('Customer name',loginController.customerName.value)),
-              Obx(() => buildTextValue('Merchant name',controller.merchantName.value)),
+              buildTextValue(
+                  'Order date', '${today.toString()} ${time.toString()}'),
+              Obx(() => buildTextValue(
+                  'Customer name', loginController.customerName.value)),
+              Obx(() => buildTextValue(
+                  'Merchant name', controller.merchantName.value)),
               buildListItems,
             ],
           ),
         ),
-        bottomSheet:  Container(
+        bottomSheet: Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(30, 10, 30, 50),
-          child: RaisedButton(        // ignore: deprecated_member_use
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+          child: RaisedButton(
+            // ignore: deprecated_member_use
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             onPressed: () async {
               await orders.add({
                 'customer_id': loginController.customerId.value,
@@ -118,9 +128,19 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
                 'step_4': false,
                 'tip': '0.00',
               }).then((value) => alert());
+
+              await orderDetail.add({
+                'order_id': orderId.toString(),
+                'items': controller.listOrder,
+              }).then((value) {
+                Get.off(() => OrderPage());
+                controller.showOrder.clear();
+                controller.showProduct.clear();
+              });
             },
             color: Colors.blue,
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5))),
             child: const Text(
               "Confirm Order",
               style: TextStyle(
@@ -151,6 +171,7 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
       ),
     );
   }
+
   Widget get buildListItems {
     return Container(
       margin: const EdgeInsets.only(top: 10),
@@ -168,8 +189,10 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: controller.showOrder.length,
-              itemBuilder: (context, index){
-                var subTotal = double.tryParse(controller.showOrder[index]['product_price'])! * double.parse(controller.showOrder[index]['qty'].toString());
+              itemBuilder: (context, index) {
+                var subTotal = double.tryParse(
+                        controller.showOrder[index]['product_price'])! *
+                    double.parse(controller.showOrder[index]['qty'].toString());
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5),
@@ -177,10 +200,16 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text('${index + 1}. '),
-                      Expanded(flex: 2, child: Text(controller.showOrder[index]['product_name'])),
+                      Expanded(
+                          flex: 2,
+                          child: Text(
+                              controller.showOrder[index]['product_name'])),
                       const SizedBox(width: 20),
                       const Text('Qty: '),
-                      Expanded(flex: 1, child: Text(controller.showOrder[index]['qty'].toString())),
+                      Expanded(
+                          flex: 1,
+                          child: Text(
+                              controller.showOrder[index]['qty'].toString())),
                       const SizedBox(width: 20),
                       const Text('Sub Total: '),
                       Text('\$ ${subTotal.toStringAsFixed(2)}'),

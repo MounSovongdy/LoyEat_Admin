@@ -36,8 +36,8 @@ class OrderPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 233, 233, 232),
                 borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(
-                  image: AssetImage('lib/images/logo_amazon.jpg'),
+                image: DecorationImage(
+                  image: AssetImage(controller.listImage[index]),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -54,20 +54,20 @@ class OrderPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: Row(
                         children: [
-                          const Icon(Icons.store_sharp),
+                          const Icon(Icons.store_sharp,size: 20),
                           const SizedBox(width: 4),
-                          Text(controller.listStoreName[index], style: const TextStyle(fontWeight: FontWeight.bold)),
+                          Text(controller.listStoreName[index],style: const TextStyle(fontSize: 12)),
                           const Spacer(),
 
-                          const Icon(Icons.directions_run),
+                          const Icon(Icons.directions_run,size: 20),
                           const SizedBox(width: 2),
-                          Text('${controller.listDistance[index]} km',style:const TextStyle(fontWeight: FontWeight.bold)),
+                          Text('${controller.listDistance[index]} km',style: const TextStyle(fontSize: 12)),
 
                           const SizedBox(width: 16),
 
-                          const Icon(Icons.two_wheeler),
+                          const Icon(Icons.two_wheeler,size: 20),
                           const SizedBox(width: 4),
-                          Text('\$ ${controller.listDeliveryFee[index]}',style:const TextStyle(fontWeight: FontWeight.bold)),
+                          Text('\$ ${controller.listDeliveryFee[index]}',style: const TextStyle(fontSize: 12)),
                         ],
                       ),
                     ),
