@@ -50,13 +50,37 @@ class OrderPage extends StatelessWidget {
                       color: const Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Center(child: Text(controller.listStoreName[index], style: const TextStyle(fontWeight: FontWeight.bold))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.store_sharp),
+                          const SizedBox(width: 4),
+                          Text(controller.listStoreName[index], style: const TextStyle(fontWeight: FontWeight.bold)),
+                          const Spacer(),
+
+                          const Icon(Icons.directions_run),
+                          const SizedBox(width: 2),
+                          Text('${controller.listDistance[index]} km',style:const TextStyle(fontWeight: FontWeight.bold)),
+
+                          const SizedBox(width: 16),
+
+                          const Icon(Icons.two_wheeler),
+                          const SizedBox(width: 4),
+                          Text('\$ ${controller.listDeliveryFee[index]}',style:const TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          onTap: () => Get.to(() => OrderPageDetail(), arguments: {'merchantName': controller.listStoreName[index]}),
+            onTap: () => Get.to(() => const OrderPageDetail(),
+                arguments: {'merchantName': controller.listStoreName[index],
+                  'deliveryFee': controller.listDeliveryFee[index],
+                  'distance': controller.listDistance[index],
+                })
         );
       },
     );

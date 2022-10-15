@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 class OrderPageController extends GetxController{
 
+  var listDeliveryFee = ['0.75', '0.50'];
+  var listDistance = ['1.50', '2.50'];
   var listStoreName = [];
   var store = ''.obs;
 

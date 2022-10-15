@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_page_controller.dart';
 import 'package:loyeat_admin/src/srceen/admin_srceen.dart';
-import 'package:loyeat_admin/src/srceen/order_page.dart';
+import 'package:loyeat_admin/src/srceen/login_srceen.dart';
 import 'customer_srceen.dart';
 import 'marchants_srceen.dart';
 
@@ -96,7 +96,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OrderPage()),
+                  MaterialPageRoute(builder: (context) => const LoginSrceen()),
                 );
               },
               color: Colors.blue,

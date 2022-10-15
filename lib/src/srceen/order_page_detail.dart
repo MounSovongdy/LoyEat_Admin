@@ -1,13 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:counter_button/counter_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_page_detail_controller.dart';
 import 'package:loyeat_admin/src/controller/remote_data.dart';
 import 'package:loyeat_admin/src/srceen/view_order_item_screen.dart';
-
-import 'customer_srceen.dart';
 
 class OrderPageDetail extends StatefulWidget {
   const OrderPageDetail({Key? key}) : super(key: key);
@@ -25,9 +20,9 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
       appBar: AppBar(
         title: Text(controller.merchantName.value),
         actions: [
-          IconButton(onPressed: () {
+         controller.showOrder.isNotEmpty ? IconButton(onPressed: () {
             Get.to(() => const ViewOrderItemScreen());
-          }, icon: const Icon(Icons.shopping_cart)),
+          }, icon: const Icon(Icons.shopping_cart)) : const SizedBox(),
         ],
       ),
       body: body,
@@ -104,6 +99,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               onTap: () {
                 setState(() {
                   controller.loadProductID(controller.listProductName[index]);
+                  controller.proPrice.value = controller.listProductPrice[index];
                   showBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
@@ -164,6 +160,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
           const Spacer(),
           SizedBox(
             width: 400,
+            // ignore: deprecated_member_use
             child: RaisedButton(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               onPressed: () {
@@ -177,16 +174,13 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
                 controller.listOrder.add(controller.mapProduct);
 
                 // for show report
-                controller.showProduct = {'product_name': title, 'qty': controller.qty.value};
+                controller.showProduct = {'product_name': title, 'qty': controller.qty.value, 'product_price': controller.proPrice.value};
                 controller.showOrder.add(controller.showProduct);
 
                 debugPrint('listOrder: ${controller.listOrder}');
 
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => const CustomerScreen()),
-                // );
+                setState((){});
+
               },
               color: Colors.blue,
               shape: const RoundedRectangleBorder(
