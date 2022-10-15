@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_page_detail_controller.dart';
 import 'package:loyeat_admin/src/controller/remote_data.dart';
+import 'package:loyeat_admin/src/srceen/view_order_item_screen.dart';
 
 import 'customer_srceen.dart';
 
@@ -24,7 +25,9 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
       appBar: AppBar(
         title: Text(controller.merchantName.value),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
+          IconButton(onPressed: () {
+            Get.to(() => const ViewOrderItemScreen());
+          }, icon: const Icon(Icons.shopping_cart)),
         ],
       ),
       body: body,
@@ -100,6 +103,7 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
               ),
               onTap: () {
                 setState(() {
+                  controller.loadProductID(controller.listProductName[index]);
                   showBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
@@ -133,9 +137,6 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
           ),
           Container(
             padding: const EdgeInsets.all(32),
-            // decoration: BoxDecoration(
-            //     color: Color.fromARGB(255, 192, 178, 178),
-            //     borderRadius: BorderRadius.circular(10)),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               IconButton(
                 padding:
@@ -160,34 +161,26 @@ class _OrderPageDetailState extends State<OrderPageDetail> {
             ]),
           ),
 
-          // Container(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(32),
-          //     child: CounterButton(
-          //       loading: false,
-          //       onChange: (int val) {
-          //         setState(() {
-          //           _counterValue;
-          //         });
-          //       },
-          //       count: _counterValue,
-          //       countColor: Color.fromARGB(255, 64, 157, 251),
-          //       buttonColor: Color.fromARGB(255, 64, 157, 251),
-          //       progressColor: Color.fromARGB(255, 64, 157, 251),
-          //     ),
-          //   ),
-          // ),
           const Spacer(),
           SizedBox(
             width: 400,
             child: RaisedButton(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               onPressed: () {
+                Navigator.pop(context);
+
                 controller.qty.value = controller.count.value;
                 controller.count.value = 1;
-                debugPrint('qty: ${controller.qty.value}');
-                Navigator.pop(context);
-                controller.mapProduct = {'product_id': '', 'qty': controller.qty.value};
+
+                // for firebase
+                controller.mapProduct = {'product_id': controller.proId.value, 'qty': controller.qty.value};
+                controller.listOrder.add(controller.mapProduct);
+
+                // for show report
+                controller.showProduct = {'product_name': title, 'qty': controller.qty.value};
+                controller.showOrder.add(controller.showProduct);
+
+                debugPrint('listOrder: ${controller.listOrder}');
 
                 // Navigator.push(
                 //   context,

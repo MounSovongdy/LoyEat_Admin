@@ -27,14 +27,19 @@ class OrderPageDetailController extends GetxController {
   }
 
   var count = 1.obs;
+  var proId = ''.obs;
   var qty = 0.obs;
+  // for firebase
   var listOrder = [];
   var mapProduct = {};
+
+  // for show data
+  var showOrder = [];
+  var showProduct = {};
 
   void incrementCounter() {
     count++;
   }
-
   void decrementCounter() {
     count--;
   }
@@ -62,6 +67,14 @@ class OrderPageDetailController extends GetxController {
         _productPriceData.value = RemoteData<List>(
             status: RemoteDataStatus.success, data: listProductPrice);
       }
+    });
+  }
+  loadProductID(String name) {
+    final product = products.where('product_name', isEqualTo: name).snapshots();
+    product.listen((event) {
+      event.docs.forEach((element) {
+        proId.value = element['product_id'];
+      });
     });
   }
 }
