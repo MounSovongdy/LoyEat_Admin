@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/order_controller.dart';
 import 'package:loyeat_admin/src/srceen/admin_srceen.dart';
 import 'package:loyeat_admin/src/srceen/login_srceen.dart';
-import 'marchants_srceen.dart';
 
 class StartUpSrceen extends StatefulWidget {
   const StartUpSrceen({Key? key}) : super(key: key);
@@ -62,30 +61,31 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
         //     ),
         //   ),
         // ),
-        Center(
-          child: SizedBox(
-            width: 350,
-            child: RaisedButton(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MarchantsSrceen()),
-                );
-              },
-              color: Colors.blue,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
-              child: const Text(
-                "Merchant Page",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ),
+
+        // Center(
+        //   child: SizedBox(
+        //     width: 350,
+        //     child: RaisedButton(
+        //       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+        //       onPressed: () {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //               builder: (context) => const MarchantsSrceen()),
+        //         );
+        //       },
+        //       color: Colors.blue,
+        //       shape: const RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.all(Radius.circular(5))),
+        //       child: const Text(
+        //         "Merchant Page",
+        //         style: TextStyle(
+        //           color: Colors.white,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         Center(
           child: SizedBox(
             width: 350,
