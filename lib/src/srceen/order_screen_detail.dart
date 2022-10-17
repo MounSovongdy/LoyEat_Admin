@@ -54,14 +54,15 @@ class _OrderScreenDetailState extends State<OrderScreenDetail> {
     return Obx(() {
       final productNameStatus = controller.productNameData.status;
       final productPriceStatus = controller.productPriceData.status;
+      final productImageStatus = controller.productImageData.status;
 
       if (productNameStatus == RemoteDataStatus.processing &&
-          productPriceStatus == RemoteDataStatus.processing) {
+          productPriceStatus == RemoteDataStatus.processing && productImageStatus == RemoteDataStatus.processing) {
         return const Center(
           child: CircularProgressIndicator(),
         );
       } else if (productNameStatus == RemoteDataStatus.error &&
-          productPriceStatus == RemoteDataStatus.error) {
+          productPriceStatus == RemoteDataStatus.error && productImageStatus == RemoteDataStatus.error) {
         return const Text('Error while loading data from server.');
       } else {
         final name = controller.productNameData.data!;
@@ -88,10 +89,10 @@ class _OrderScreenDetailState extends State<OrderScreenDetail> {
                           child: Container(
                             height: 72.0,
                             width: 72.0,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               image: DecorationImage(
                                 image:
-                                    AssetImage('assets/image/amazon_coffee.jpg'),
+                                    AssetImage('${controller.listImage[index]}'),
                                 fit: BoxFit.fill,
                               ),
                               shape: BoxShape.circle,

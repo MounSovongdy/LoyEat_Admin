@@ -3,26 +3,33 @@ import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/remote_data.dart';
 
 class OrderDetailController extends GetxController {
-  var customerId =''.obs;
+  var customerId = ''.obs;
   var customerName = ''.obs;
   var merchantId = ''.obs;
   var merchantName = ''.obs;
   var deliveryFee = ''.obs;
   var distance = ''.obs;
+  var listImage = [];
   var listProductName = [];
   var listProductPrice = [];
 
   final merchants = FirebaseFirestore.instance.collection('merchants');
   final products = FirebaseFirestore.instance.collection('products');
 
-  final _productNameData = RemoteData<List>(status: RemoteDataStatus.processing, data: null).obs;
+  final _productNameData =
+      RemoteData<List>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<List> get productNameData => _productNameData.value;
 
-  final _productPriceData = RemoteData<List>(status: RemoteDataStatus.processing, data: null).obs;
+  final _productPriceData =
+      RemoteData<List>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<List> get productPriceData => _productPriceData.value;
 
-  var data = false.obs;
+    final _productImageData =
+      RemoteData<List>(status: RemoteDataStatus.processing, data: null).obs;
+  RemoteData<List> get productImageData => _productImageData.value;
 
+
+  var data = false.obs;
 
   var count = 1.obs;
   var proId = ''.obs;
@@ -40,6 +47,7 @@ class OrderDetailController extends GetxController {
   void incrementCounter() {
     count++;
   }
+
   void decrementCounter() {
     count--;
     if (count.value == 0) {
@@ -48,6 +56,7 @@ class OrderDetailController extends GetxController {
   }
 
   loadProductData() async {
+    listImage.clear();
     listProductName.clear();
     listProductPrice.clear();
 
@@ -65,6 +74,7 @@ class OrderDetailController extends GetxController {
         .get()
         .then((product) {
       for (var data in product.docs) {
+        listImage.add(data['image']);
         listProductName.add(data['product_name']);
         listProductPrice.add(data['price']);
 
@@ -72,9 +82,12 @@ class OrderDetailController extends GetxController {
             status: RemoteDataStatus.success, data: listProductName);
         _productPriceData.value = RemoteData<List>(
             status: RemoteDataStatus.success, data: listProductPrice);
+         _productImageData.value = RemoteData<List>(
+            status: RemoteDataStatus.success, data: listImage);
       }
     });
   }
+
   loadProductID(String name) {
     final product = products.where('product_name', isEqualTo: name).snapshots();
     product.listen((event) {
