@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/login_controller.dart';
-
-import 'customer_srceen.dart';
+import 'package:loyeat_admin/src/srceen/customer_srceen.dart';
 
 class LoginSrceen extends StatefulWidget {
  const LoginSrceen({Key? key}) : super(key: key);
@@ -84,11 +83,7 @@ class _LoginSrceenState extends State<LoginSrceen> {
               const Text('You don\'t have account?  '),
               InkWell(child: const Text('Register Now!',style:  TextStyle(color: Colors.blue),),
               onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CustomerScreen()),
-                );
+               Get.to(() => const CustomerScreen());
               }
               )
             ],

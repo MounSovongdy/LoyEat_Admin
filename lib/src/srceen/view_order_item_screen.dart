@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:loyeat_admin/src/controller/login_controller.dart';
-import 'package:loyeat_admin/src/controller/order_page_detail_controller.dart';
-import 'package:loyeat_admin/src/srceen/order_page.dart';
+import 'package:loyeat_admin/src/controller/order_detail_controller.dart';
+import 'package:loyeat_admin/src/controller/save_login_controller.dart';
+import 'package:loyeat_admin/src/srceen/order_screen.dart';
 
 class ViewOrderItemScreen extends StatefulWidget {
   const ViewOrderItemScreen({Key? key}) : super(key: key);
@@ -14,10 +16,9 @@ class ViewOrderItemScreen extends StatefulWidget {
 }
 
 class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
-  final controller = Get.put(OrderPageDetailController());
-  final loginController = Get.put(LoginController());
+  final controller = Get.put(OrderDetailController());
+  final saveLogin = Get.put(SaveLoginController());
 
-  final orderCollection = FirebaseFirestore.instance.collection('orders');
   final delivers = FirebaseFirestore.instance.collection('delivers');
   final orders = FirebaseFirestore.instance.collection('orders');
   final orderDetail = FirebaseFirestore.instance.collection('orders_detail');
@@ -27,15 +28,24 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
   String? orderId;
   String? orderDate;
 
+  Timer? _timer;
+  var startCounter = 58.obs;
+  var id = ''.obs;
+  var orderDoc = ''.obs;
+  var deliverDoc = ''.obs;
+  var orderDetailDoc = ''.obs;
+  var list = [];
+
   loadLastOrderID() async {
-    await orderCollection.where('date', isEqualTo: today).get().then((value) {
+    await orders.where('date', isEqualTo: today).get().then((value) {
       if (value.docs.isNotEmpty) {
         for (var data in value.docs) {
           final lastID = data['order_id'];
           var newID = int.parse(lastID) + 1;
-          debugPrint('newID: $newID');
+           list.add(newID);
           setState(() {
-            orderId = newID.toString();
+            var maxId = list.reduce((value, element) => value > element ? value : element);
+            orderId = maxId.toString();
           });
         }
       } else {
@@ -49,6 +59,9 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
   @override
   void initState() {
     super.initState();
+    controller.customerId.value = saveLogin.readCustomerId();
+    controller.customerName.value = saveLogin.readCustomerName();
+    debugPrint('view order item : customer name : ${controller.customerName.value}');
     var getCurrentDate = DateTime.now();
     var formatDate = DateFormat('dd-MMM-yy');
     var formatTime = DateFormat('kk:mm a');
@@ -67,8 +80,7 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
           elevation: 0,
           leading: InkWell(
               onTap: () => Get.back(),
-              child:
-                  const Icon(Icons.arrow_back_ios_sharp, color: Colors.black)),
+              child: const Icon(Icons.arrow_back_ios_sharp, color: Colors.black)),
           backgroundColor: Colors.white,
           title: const Text(
             'Your Order',
@@ -84,7 +96,7 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
               buildTextValue(
                   'Order date', '${today.toString()} ${time.toString()}'),
               Obx(() => buildTextValue(
-                  'Customer name', loginController.customerName.value)),
+                  'Customer name', controller.customerName.value)),
               Obx(() => buildTextValue(
                   'Merchant name', controller.merchantName.value)),
               buildListItems,
@@ -94,13 +106,16 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
         bottomSheet: Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(30, 10, 30, 50),
+          // ignore: deprecated_member_use
           child: RaisedButton(
             // ignore: deprecated_member_use
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             onPressed: () async {
+              closeTimer();
+              id.value = orderId.toString();
               await orders.add({
-                'customer_id': loginController.customerId.value,
-                'customer_name': loginController.customerName.value,
+                'customer_id': controller.customerId.value,
+                'customer_name': controller.customerName.value,
                 'date': today.toString(),
                 'driver_id': '',
                 'is_new': true,
@@ -110,7 +125,6 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
                 'time': time.toString(),
                 'total_discount': '0.00',
               }).then((value) => debugPrint('added'));
-
               await delivers.add({
                 'bonus': '0.00',
                 'customer_rating': '5.0',
@@ -128,15 +142,11 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
                 'step_4': false,
                 'tip': '0.00',
               }).then((value) => alert());
-
               await orderDetail.add({
                 'order_id': orderId.toString(),
                 'items': controller.listOrder,
-              }).then((value) {
-                Get.off(() => OrderPage());
-                controller.showOrder.clear();
-                controller.showProduct.clear();
-              });
+              }).then((value) {});
+              await orderSuccess();
             },
             color: Colors.blue,
             shape: const RoundedRectangleBorder(
@@ -152,12 +162,99 @@ class _ViewOrderItemScreenState extends State<ViewOrderItemScreen> {
       ),
     );
   }
-
   void alert() {
     const snackBar = SnackBar(
       content: Text('Order Successfully'),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  orderSuccess() {
+    debugPrint('customer name: ${controller.customerName.value}');
+    Get.offAll(() => const OrderScreen());
+    controller.showOrder.clear();
+    controller.showProduct.clear();
+    startTimer();
+  }
+
+  void startTimer() async {
+    await loadFirebase();
+    const oneSec = Duration(seconds: 1);
+
+    _timer = Timer.periodic(oneSec, (Timer timer) {
+      debugPrint('Timer = ${startCounter.value}');
+      if (startCounter.value == 0) {
+        orders.doc(orderDoc.value).get().then((data) {
+          var isNew = data['is_new'];
+          debugPrint('isNew: $isNew');
+          if (isNew == true) {
+            timer.cancel();
+            orders.doc(orderDoc.value).delete();
+            delivers.doc(deliverDoc.value).delete();
+            orderDetail.doc(orderDetailDoc.value).delete();
+            debugPrint('Sorry, your order was delete because no driver.');
+            orderDeleteAlter();
+          }
+          else {
+            debugPrint('timer cancel');
+            timer.cancel();
+          }
+        });
+      }
+      else {
+        orders.doc(orderDoc.value).get().then((data) {
+          var isNew = data['is_new'];
+          if (isNew == false) {
+            timer.cancel();
+            debugPrint('timer cancel');
+            debugPrint('isNew: $isNew');
+          }
+          else {
+            startCounter--;
+          }
+        });
+
+      }
+    });
+  }
+  void closeTimer() {
+    debugPrint('timer cancel');
+    _timer?.cancel();
+    startCounter.value = 58;
+  }
+  loadFirebase() {
+    debugPrint('order id: $id');
+    orders.where('order_id', isEqualTo: id.value).get().then((value) {
+      for (var data in value.docs) {
+        orderDoc.value = data.id;
+      }
+    });
+    delivers.where('order_id', isEqualTo: id.value).get().then((value) {
+      for (var data in value.docs) {
+        deliverDoc.value = data.id;
+      }
+    });
+    orderDetail.where('order_id', isEqualTo: id.value).get().then((value) {
+      for (var data in value.docs) {
+        orderDetailDoc.value = data.id;
+      }
+    });
+  }
+  void orderDeleteAlter() {
+    Get.defaultDialog(
+      radius: 5,
+      title: '',
+      barrierDismissible: false,
+      titleStyle: const TextStyle(fontSize: 10),
+      titlePadding: const EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.all(15),
+      middleTextStyle: const TextStyle(fontSize: 14),
+      middleText: 'Sorry, your order was delete because no driver.',
+      textConfirm: 'Confirm',
+      confirmTextColor: Colors.white,
+      buttonColor: Colors.blueAccent,
+      onConfirm: () => Get.back(),
+    );
   }
 
   Widget buildTextValue(String key, String value) {

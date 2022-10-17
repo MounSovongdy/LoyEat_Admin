@@ -1,24 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loyeat_admin/src/controller/order_page_detail_controller.dart';
+import 'package:loyeat_admin/src/controller/order_detail_controller.dart';
 import 'package:loyeat_admin/src/controller/remote_data.dart';
+import 'package:loyeat_admin/src/controller/save_login_controller.dart';
 import 'package:loyeat_admin/src/srceen/view_order_item_screen.dart';
 
-class OrderPageDetail extends StatefulWidget {
-  const OrderPageDetail({Key? key}) : super(key: key);
+class OrderScreenDetail extends StatefulWidget {
+  const OrderScreenDetail({Key? key}) : super(key: key);
 
   @override
-  State<OrderPageDetail> createState() => _OrderPageDetailState();
+  State<OrderScreenDetail> createState() => _OrderScreenDetailState();
 }
 
-class _OrderPageDetailState extends State<OrderPageDetail> {
-  final controller = Get.put(OrderPageDetailController());
+class _OrderScreenDetailState extends State<OrderScreenDetail> {
+  final controller = Get.put(OrderDetailController());
+  final saveLogin = Get.put(SaveLoginController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.customerName.value = saveLogin.readCustomerName();
+    debugPrint('customer name : ${controller.customerName.value}');
+
+    if (controller.data.value == true) {
+      controller.merchantName.value = Get.arguments['merchantName'];
+      controller.deliveryFee.value = Get.arguments['deliveryFee'];
+      controller.distance.value = Get.arguments['distance'];
+      controller.loadProductData();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.merchantName.value),
+        title: Obx(()=> Text(controller.merchantName.value)),
         actions: [
           controller.showOrder.isNotEmpty
               ? IconButton(

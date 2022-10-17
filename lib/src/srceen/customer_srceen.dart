@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:loyeat_admin/src/widget/bottom_app_bar_widget.dart';
 import 'package:intl/intl.dart';
 
 class CustomerScreen extends StatefulWidget {
@@ -23,8 +22,24 @@ class _CustomerScreenState extends State<CustomerScreen> {
   final latitude = TextEditingController();
   final longitude = TextEditingController();
 
-  CollectionReference customers =
-      FirebaseFirestore.instance.collection('customers');
+  CollectionReference customers = FirebaseFirestore.instance.collection('customers');
+  var listCustomerId = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    customers.get().then((value) {
+      for (var element in value.docs) {
+        listCustomerId.add(int.parse(element['customer_id']));
+        setState((){
+          var newId = listCustomerId.reduce((value, element) => value > element ? value : element);
+          customerId.text = (newId + 1).toString();
+          debugPrint('customerId: ${customerId.text}');
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +58,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
       children: [
-        textEditingController(
-            controller: customerId,
-            labletext: 'Customer ID',
-            suffixIcon: GestureDetector(
-                onTap: () => {}, child: const Icon(Icons.key_rounded))),
         textEditingController(
             controller: customerName,
             labletext: 'Customer Name',
@@ -80,7 +90,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                           DateFormat('dd-MMMM-yy').format(pickerDate);
                     });
                   } else {
-                    print("Date is not selected");
+                    debugPrint("Date is not selected");
                   }
                 },
                 child: const Icon(Icons.calendar_month_rounded))),
@@ -94,6 +104,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
 
                   if (pickedTime != null) {
                     DateTime parsedTime = DateFormat.jm()
+                        // ignore: use_build_context_synchronously
                         .parse(pickedTime.format(context).toString());
                     String formattedTime =
                         DateFormat('HH:mm a').format(parsedTime);
@@ -102,7 +113,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                       createTime.text = formattedTime;
                     });
                   } else {
-                    print("Time is not selected");
+                    debugPrint("Time is not selected");
                   }
                 },
                 child: const Icon(Icons.timer_rounded))),
@@ -179,7 +190,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
                         double.parse(longitude.text)),
                     'location': location.text,
                     'image': image.text,
-                  }).then((value) => print('Customer Added'));
+                  }).then((value) => debugPrint('Customer Added'));
                   customerId.clear();
                   customerName.clear();
                   gender.clear();

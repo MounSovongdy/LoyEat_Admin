@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loyeat_admin/src/controller/order_page_controller.dart';
+import 'package:loyeat_admin/src/controller/order_controller.dart';
 import 'package:loyeat_admin/src/srceen/admin_srceen.dart';
 import 'package:loyeat_admin/src/srceen/login_srceen.dart';
 import 'marchants_srceen.dart';
@@ -14,7 +14,7 @@ class StartUpSrceen extends StatefulWidget {
 }
 
 class _StartUpSrceenState extends State<StartUpSrceen> {
-  final controller = Get.put(OrderPageController());
+  final controller = Get.put(OrderController());
 
   @override
   void initState() {
@@ -93,10 +93,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               onPressed: () {
                 controller.loadMerchantData();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginSrceen()),
-                );
+                Get.to(() => const LoginSrceen());
               },
               color: Colors.blue,
               shape: const RoundedRectangleBorder(
@@ -118,7 +115,7 @@ class _StartUpSrceenState extends State<StartUpSrceen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AdminSrceen()),
+                  MaterialPageRoute(builder: (context) => const AdminSrceen()),
                 );
               },
               color: Colors.blue,

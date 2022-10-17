@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:loyeat_admin/src/controller/remote_data.dart';
 
-class OrderPageDetailController extends GetxController {
+class OrderDetailController extends GetxController {
+  var customerId =''.obs;
+  var customerName = ''.obs;
   var merchantId = ''.obs;
   var merchantName = ''.obs;
   var deliveryFee = ''.obs;
@@ -19,14 +21,8 @@ class OrderPageDetailController extends GetxController {
   final _productPriceData = RemoteData<List>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<List> get productPriceData => _productPriceData.value;
 
-  @override
-  void onInit() {
-    super.onInit();
-    merchantName.value = Get.arguments['merchantName'];
-    deliveryFee.value = Get.arguments['deliveryFee'];
-    distance.value = Get.arguments['distance'];
-    loadProductData();
-  }
+  var data = false.obs;
+
 
   var count = 1.obs;
   var proId = ''.obs;
@@ -52,6 +48,9 @@ class OrderPageDetailController extends GetxController {
   }
 
   loadProductData() async {
+    listProductName.clear();
+    listProductPrice.clear();
+
     await merchants
         .where('merchant_name', isEqualTo: merchantName.value)
         .get()

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loyeat_admin/src/controller/order_page_controller.dart';
+import 'package:loyeat_admin/src/controller/order_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
@@ -23,7 +23,7 @@ class _MarchantsSrceenState extends State<MarchantsSrceen> {
   final longitude = TextEditingController();
   final image = TextEditingController();
 
-  final controller = Get.put(OrderPageController());
+  final controller = Get.put(OrderController());
 
   CollectionReference merchants =
       FirebaseFirestore.instance.collection('merchants');
