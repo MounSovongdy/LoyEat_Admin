@@ -55,4 +55,13 @@ class AdminController extends GetxController {
       }
     });
   }
+  void rejectDriver(String tel) {
+    driverCollection.where('tel', isEqualTo: tel).get().then((value) {
+      for (var element in value.docs) {
+        var driverDoc = element.id;
+
+        driverCollection.doc(driverDoc).delete();
+      }
+    });
+  }
 }

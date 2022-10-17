@@ -112,6 +112,8 @@ class _AdminSrceenState extends State<AdminSrceen> {
                         textColor: const Color.fromARGB(255, 246, 6, 6),
                         onPressed: () {
                           // Perform some action
+                          controller.rejectDriver(controller.listTel[index]);
+                          controller.loadDriver();
                         },
                         child: const Text('Reject'),
                       ),
